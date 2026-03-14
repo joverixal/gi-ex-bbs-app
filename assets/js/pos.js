@@ -1,129 +1,94 @@
-// pos.js - Fully offline capable using IndexedDB (idb.js)
-
+// -------------------- GLOBAL VARIABLES --------------------
 let products = [];
 let carts = [];
+let offlineQueue = JSON.parse(localStorage.getItem('offlineQueue') || '[]');
 
-// ---------------- IndexedDB Setup ----------------
-const dbPromise = idb.openDB('rixal-pos-db', 1, {
-  upgrade(db) {
-    if (!db.objectStoreNames.contains('products')) {
-      db.createObjectStore('products', { keyPath: 'id' });
-    }
-    if (!db.objectStoreNames.contains('offlinePayments')) {
-      db.createObjectStore('offlinePayments', { autoIncrement: true });
-    }
-  }
-});
-
-// ---------------- IndexedDB Helpers ----------------
-async function saveProductsToDB(products) {
-  const db = await dbPromise;
-  const tx = db.transaction('products', 'readwrite');
-  const store = tx.objectStore('products');
-  store.clear(); // remove old products
-  products.forEach(p => store.put(p));
-  await tx.done;
-}
-
-async function loadProductsFromDB() {
-  const db = await dbPromise;
-  const store = db.transaction('products', 'readonly').objectStore('products');
-  return await store.getAll();
-}
-
-async function saveOfflinePayment(payload) {
-  const db = await dbPromise;
-  const tx = db.transaction('offlinePayments', 'readwrite');
-  const store = tx.objectStore('offlinePayments');
-  await store.add(payload);
-  await tx.done;
-}
-
-async function getOfflinePayments() {
-  const db = await dbPromise;
-  const store = db.transaction('offlinePayments', 'readonly').objectStore('offlinePayments');
-  return await store.getAll();
-}
-
-async function deleteOfflinePayment(key) {
-  const db = await dbPromise;
-  const tx = db.transaction('offlinePayments', 'readwrite');
-  const store = tx.objectStore('offlinePayments');
-  await store.delete(key);
-  await tx.done;
-}
-
-// ---------------- Document Ready ----------------
+// -------------------- DOCUMENT READY --------------------
 $(document).ready(function () {
 
+  // -------------------- TOASTR SETTINGS --------------------
   toastr.options = {
     positionClass: "toast-bottom-center",
-    timeOut: 3000
+    timeOut: "3000",
+    extendedTimeOut: "1000",
+    preventDuplicates: true
   };
 
-  // Redirect if not logged in
-  if (!localStorage.getItem("isLoggedIn")) window.location.href = "index.html";
-
-  // Highlight nav
-  const path = window.location.pathname.split("/").pop();
-  if (path === "pos.html") $("#nav-pos").addClass("active");
-  if (path === "products.html") $("#nav-products").addClass("active");
-  if (path === "sales.html") $("#nav-sales").addClass("active");
-
-  $("#nav-logout").click(function (e) {
+  // -------------------- LOGOUT --------------------
+  $("#nav-logout").click(function(e){
     e.preventDefault();
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("user");
     window.location.href = "index.html";
   });
 
-  $("#btn-clear-cash").click(function () {
+  // -------------------- ACTIVE NAV --------------------
+  const path = window.location.pathname.split("/").pop();
+  if(path==="pos.html") $("#nav-pos").addClass("active");
+  if(path==="products.html") $("#nav-products").addClass("active");
+  if(path==="sales.html") $("#nav-sales").addClass("active");
+
+  // -------------------- CLEAR CASH --------------------
+  $("#btn-clear-cash").click(function(){
     $("#inp-cash-received").val("").focus();
-    const amountDue = parseFloat($('#inp-amount-due').val()) || 0;
+    const amountDue = parseFloat($("#inp-amount-due").val()) || 0;
     $("#inp-changed").val(-amountDue);
   });
 
-  // Load products (offline & online)
+  // -------------------- LOAD PRODUCTS --------------------
   loadProducts();
 
-  async function loadProducts() {
-    const $sel = $("#sel-products");
-    $sel.prop("disabled", true).html('<option>Loading...</option>');
+  async function loadProducts(){
+    const $select = $('#sel-products');
+    $select.prop('disabled', true).html('<option>Loading...</option>');
 
-    // Load from IndexedDB first
-    let cachedProducts = await loadProductsFromDB();
-    if (cachedProducts.length > 0) {
-      products = cachedProducts;
+    // Load cached products first
+    const cached = localStorage.getItem('products');
+    if(cached){
+      products = JSON.parse(cached);
       renderProducts(products);
     }
 
-    // Try loading from API
-    try {
-      const res = await $.ajax({ url: API_URL, method: "GET", data: { action: "getServices" } });
-      const data = typeof res === "string" ? JSON.parse(res) : res;
+    // Fetch from API
+    try{
+      const response = await $.ajax({
+        url: API_URL,
+        method: "GET",
+        data: { action:"getServices" }
+      });
+
+      const data = typeof response === "string" ? JSON.parse(response) : response;
       products = data.products || [];
-      await saveProductsToDB(products);
+
+      // Cache locally
+      localStorage.setItem('products', JSON.stringify(products));
       renderProducts(products);
-    } catch (err) {
-      toastr.warning("Offline: using local product database");
-      console.log("Offline mode", err);
+
+    } catch(err){
+      console.log("Failed to fetch products:", err);
+      toastr.warning("Using cached products due to offline/API error");
+      $select.prop('disabled', false);
     }
-
-    $sel.prop("disabled", false);
   }
 
-  function renderProducts(list) {
-    const $sel = $("#sel-products");
-    $sel.empty().append('<option value="">Select Item</option>');
-    list.forEach(p => $sel.append(`<option value="${p.id}">${p.name}</option>`));
+  function renderProducts(list){
+    const $select = $("#sel-products");
+    $select.empty().append('<option value="">Select Item</option>');
+    list.forEach(p=>{
+      $select.append(`<option value="${p.id}">${p.name}</option>`);
+    });
+    $select.prop('disabled', false);
   }
 
-  // ---------------- Product Selection ----------------
-  $("#sel-products").change(function () {
-    const productId = $(this).val();
-    const product = products.find(p => p.id === productId);
-    if (!product) return toastr.error("Unknown product!");
+  // -------------------- PRODUCT SELECTION --------------------
+  $("#sel-products").change(function(){
+    const id = $(this).val();
+    if(!id) return toastr.error("Unknown select product!");
 
+    const product = products.find(p=>p.id===id);
+    if(!product) return toastr.error("Product not found!");
+
+    // Fill modal
     $("#lbl-item-title").text(product.name);
     $("#inp-id").val(product.id);
     $("#inp-unit-price").val(product.unitPrice);
@@ -133,121 +98,145 @@ $(document).ready(function () {
     $("#inp-quantity").val(1);
 
     $("#mdl-add-item").modal("show");
-    $(this).val('');
+    $("#sel-products").val(null);
   });
 
-  $("#btn-increase").click(() => changeQuantity(1));
-  $("#btn-decrease").click(() => changeQuantity(-1));
+  // -------------------- QUANTITY BUTTONS --------------------
+  $("#btn-increase").click(()=>changeQuantity(1));
+  $("#btn-decrease").click(()=>changeQuantity(-1));
 
-  function changeQuantity(delta) {
+  function changeQuantity(delta){
     let qty = parseFloat($("#inp-quantity").val()) || 1;
     qty = Math.max(0.5, qty + delta);
     $("#inp-quantity").val(qty);
   }
 
-  // ---------------- Add to Cart ----------------
-  $("#btn-add-item").click(function () {
+  // -------------------- ADD TO CART --------------------
+  $("#btn-add-item").click(function(){
     const id = $("#inp-id").val();
+    const unitPrice = parseFloat($("#inp-unit-price").val());
+    const profit = parseFloat($("#inp-profit").val());
     const name = $("#lbl-item-title").text();
-    const quantity = parseFloat($("#inp-quantity").val()) || 0;
+    const stockOnHand = parseFloat($("#inp-stock-on-hand").val());
+    const quantity = parseFloat($("#inp-quantity").val());
     const sellingPrice = parseFloat($("#inp-selling-price").val());
-    const stock = parseFloat($("#inp-stock-on-hand").val());
+    const totalAmount = quantity * sellingPrice;
 
-    if (quantity <= 0) return toastr.error("Enter valid quantity!");
-    if (quantity > stock) return toastr.error("Quantity exceeds stock!");
+    if(stockOnHand <=0) return toastr.error("Insufficient stock!");
+    if(quantity<=0) return toastr.error("Enter valid quantity!");
 
-    const exist = carts.find(c => c.id === id);
-    if (exist) {
-      exist.quantity += quantity;
-      exist.totalAmount = exist.quantity * sellingPrice;
+    const existingIndex = carts.findIndex(item=>item.id===id);
+    if(existingIndex===-1){
+      if(quantity>stockOnHand) return toastr.error("Quantity exceeds stock!");
+      carts.push({ id, unitPrice, name, quantity, sellingPrice, profit, totalAmount });
     } else {
-      carts.push({ id, name, quantity, sellingPrice, totalAmount: quantity * sellingPrice });
+      let newQty = carts[existingIndex].quantity + quantity;
+      if(newQty>stockOnHand) return toastr.error("Quantity exceeds stock!");
+      carts[existingIndex].quantity = newQty;
+      carts[existingIndex].totalAmount = newQty * sellingPrice;
     }
 
     updateCartUI();
+    toastr.success(`Added ${quantity} item(s) successfully!`);
     $("#mdl-add-item").modal("hide");
   });
 
-  function updateCartUI() {
+  // -------------------- UPDATE CART UI --------------------
+  function updateCartUI(){
     const $div = $("#div-added-items");
     $div.empty();
-    let total = 0;
-    carts.forEach((item, i) => {
-      total += item.totalAmount;
-      $div.append(`
-        <div class="d-flex justify-content-between align-items-center border p-2 rounded">
-          <div><strong>${item.name}</strong><br>Qty: ${item.quantity} x ₱${item.sellingPrice} = ₱${item.totalAmount}</div>
-          <button class="btn btn-sm btn-danger btn-remove" data-index="${i}"><i class="bi bi-trash"></i></button>
-        </div>
-      `);
+    let totalDue = 0;
+
+    carts.forEach((item,index)=>{
+      totalDue += item.totalAmount;
+      const itemHtml = `
+        <div class="d-flex justify-content-between align-items-center mb-2 border p-2 rounded">
+          <div>
+            <strong>${item.name}</strong><br>
+            Qty: ${item.quantity} x ₱${item.sellingPrice} = ₱${item.totalAmount.toFixed(2)}
+          </div>
+          <button class="btn btn-sm btn-danger btn-remove" data-index="${index}">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>`;
+      $div.append(itemHtml);
     });
 
-    $("#inp-amount-due").val(total);
-    $("#inp-cash-received").val(total);
+    $("#inp-amount-due").val(totalDue.toFixed(2));
+    $("#inp-cash-received").val(totalDue.toFixed(2));
     $("#inp-changed").val(0);
   }
 
-  $(document).on("click", ".btn-remove", function () {
+  // -------------------- REMOVE ITEM --------------------
+  $(document).on("click",".btn-remove",function(){
     const index = $(this).data("index");
-    carts.splice(index, 1);
+    carts.splice(index,1);
     updateCartUI();
   });
 
-  // ---------------- Cash Input ----------------
-  $("#inp-cash-received").on("input", function () {
+  // -------------------- CASH INPUT --------------------
+  $("#inp-cash-received").on("input",function(){
     const due = parseFloat($("#inp-amount-due").val()) || 0;
     const cash = parseFloat($(this).val()) || 0;
-    $("#inp-changed").val(cash - due);
+    $("#inp-changed").val((cash - due).toFixed(2));
   });
 
-  // ---------------- Cash Payment ----------------
-  $("#btn-cash").click(async function () {
+  // -------------------- CASH PAYMENT --------------------
+  $("#btn-cash").click(function(){
     const amountDue = parseFloat($("#inp-amount-due").val()) || 0;
     const cashReceived = parseFloat($("#inp-cash-received").val()) || 0;
-    if (carts.length === 0) return toastr.error("No items added!");
-    if (cashReceived < amountDue) return toastr.error("Insufficient cash!");
+    const changed = parseFloat($("#inp-changed").val()) || 0;
 
-    const payload = { action: "cashPayment", amountDue, cashReceived, carts };
+    if(carts.length===0) return toastr.error("No added product!");
+    if(cashReceived < amountDue) return toastr.error("Insufficient cash!");
 
-    try {
-      await $.ajax({
-        url: API_URL,
-        method: "POST",
-        data: JSON.stringify(payload),
-        contentType: "application/json"
-      });
-      toastr.success("Payment saved online!");
-      carts = [];
-      updateCartUI();
-    } catch (err) {
-      await saveOfflinePayment(payload);
-      toastr.warning("Offline: payment queued");
-      carts = [];
-      updateCartUI();
-    }
+    const btnCash = $(this);
+    btnCash.prop('disabled', true).text('Processing...');
+
+    const payload = { action:"cashPayment", amountDue, cashReceived, changed, carts };
+
+    $.ajax({
+      url: API_URL,
+      method:"POST",
+      data: JSON.stringify(payload),
+      contentType: "application/json",
+      success: function(){
+        carts = [];
+        updateCartUI();
+        toastr.success("Cash payment saved!");
+        btnCash.prop('disabled', false).text('Cash');
+      },
+      error: function(){
+        offlineQueue.push(payload);
+        localStorage.setItem('offlineQueue', JSON.stringify(offlineQueue));
+        carts = [];
+        updateCartUI();
+        toastr.warning("Offline: payment queued");
+        btnCash.prop('disabled', false).text('Cash');
+      }
+    });
   });
 
-  // ---------------- Sync Offline Payments ----------------
-  async function syncOfflinePayments() {
-    const payments = await getOfflinePayments();
-    for (let i = 0; i < payments.length; i++) {
-      const payment = payments[i];
-      try {
-        await $.ajax({
-          url: API_URL,
-          method: "POST",
-          data: JSON.stringify(payment),
-          contentType: "application/json"
-        });
-        await deleteOfflinePayment(i + 1); // auto-increment key
-        toastr.success("Offline payment synced!");
-      } catch (err) {
-        console.log("Still offline, will retry later");
-      }
-    }
+  // -------------------- OFFLINE QUEUE SYNC --------------------
+  function syncOfflineQueue(){
+    if(offlineQueue.length===0 || !navigator.onLine) return;
+    const queueCopy = [...offlineQueue];
+    queueCopy.forEach((payload,index)=>{
+      $.ajax({
+        url: API_URL,
+        method:"POST",
+        data: JSON.stringify(payload),
+        contentType:"application/json",
+        success: function(){
+          offlineQueue.splice(index,1);
+          localStorage.setItem('offlineQueue', JSON.stringify(offlineQueue));
+          toastr.success("Offline payment synced!");
+        }
+      });
+    });
   }
 
-  window.addEventListener("online", syncOfflinePayments);
-  syncOfflinePayments();
+  window.addEventListener("online", syncOfflineQueue);
+  syncOfflineQueue();
 
 });
