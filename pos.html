@@ -146,6 +146,49 @@ readonly>
 
 </div>
 
+<div class="modal fade" id="mdl-add-item">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 id="lbl-item-title"></h5>
+      </div>
+
+      <div class="modal-body">
+        <div class="row mb-3">
+          <div class="col">
+            <label for="inp-stock-on-hand" class="form-label">Stock on Hand</label>
+            <input type="hidden" id="inp-id" class="form-control">
+            <input type="hidden" id="inp-unit-price" class="form-control">
+            <input type="hidden" id="inp-profit" class="form-control">
+            <input type="number" id="inp-stock-on-hand" class="form-control text-center" readonly disabled>
+          </div>
+          <div class="col">
+            <label for="inp-selling-price" class="form-label">Selling Price</label>
+            <input type="number" id="inp-selling-price" class="form-control text-center" readonly disabled>
+          </div>
+        </div>
+
+        <div class="row mb-3 align-items-center">
+          <label for="inp-quantity" class="form-label">Quantity</label>
+          <div class="input-group input-group-lg">
+            <button class="btn btn-outline-secondary btn-lg" type="button" id="btn-decrease">-</button>
+            <input type="number" id="inp-quantity" class="form-control text-center" 
+                   placeholder="Quantity" value="1" min="0.5" style="font-size:1.5rem; height:60px;" required>
+            <button class="btn btn-outline-secondary btn-lg" type="button" id="btn-increase">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button id="btn-add-item" class="btn btn-primary">Add</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
 <!-- Bottom Nav -->
 
