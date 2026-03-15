@@ -72,6 +72,10 @@ body {
   border-radius:0.5rem;
   transition: all 0.15s ease-in-out;
 }
+#qrcode {
+  display: block;
+  margin: 0 auto;
+}
 
 .qrcode-btn:hover{ background:#e69500 !important; }
 .qrcode-btn:active, .qrcode-btn:focus{ background:#cc8400 !important; transform: scale(0.97); }
@@ -90,7 +94,7 @@ body {
   </div>
   
   <!-- QR code container -->
-  <div id="qrcode"></div>
+  <div id="qrcode" class="d-flex justify-content-center mb-3"></div>
 
   <!-- Download button -->
   <button id="btn-download" class="btn qrcode-btn w-100 py-3 mt-3">
