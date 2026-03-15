@@ -6,12 +6,16 @@ $(document).ready(function() {
     const logoSrc = 'assets/images/anhs-2011-logo.png';
 
     // Generate QR code
-    $('#qrcode').qrcode({
-        text: guidId,
+    const qrData = "Name:Joverixal Entuna;Batch:2011";
+    const qrcodeContainer = document.getElementById("qrcode");
+    qrcodeContainer.innerHTML = ""; // clear previous QR code
+    new QRCode(qrcodeContainer, {
+        text: qrData,
         width: 250,
         height: 250,
         colorDark: "#000000",
-        colorLight: "#ffffff"
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
     });
 
     $('#btn-download').click(function() {
