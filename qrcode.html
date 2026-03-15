@@ -19,10 +19,9 @@
 <script src="assets/vendor/jquery.min.js"></script>
 <script src="assets/vendor/bootstrap.bundle.min.js"></script>
 <script src="assets/vendor/toastr.min.js"></script>
-<script src="assets/vendor/jquery.qrcode.min.js"></script>
-  
-<script src="assets/js/config.js"></script>
-<script src="assets/js/qrcode.js"></script>
+
+<!-- HTML5 QR Code -->
+<script src="assets/vendor/html5-qrcode.min.js"></script>
 
 <style>
 body {
@@ -101,12 +100,39 @@ body {
 <script src="assets/js/loadFooter.js"></script>
 
 <script>
+// Initialize QR Code
+const qrData = "Name:Joverixal Entuna;Batch:2011";
+const qrCode = new Html5Qrcode("qrcode");
 
-// Register service worker for PWA
+// Render QR code
+qrCode.render(qrData, {
+  width: 250,
+  height: 250,
+  qrbox: 250
+}).catch(err => console.error(err));
+
+// Download QR code as PNG
+document.getElementById('btn-download').addEventListener('click', async () => {
+  try {
+    const qrElement = document.getElementById('qrcode').querySelector('canvas');
+    if (!qrElement) throw "QR canvas not found!";
+    
+    const dataUrl = qrElement.toDataURL("image/png");
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = "ANHS2011_QR.png";
+    a.click();
+  } catch(err) {
+    console.error(err);
+    toastr.error("Failed to download QR code.");
+  }
+});
+
+// Register service worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js')
     .then(()=>console.log("SW registered"))
-    .catch(err=>console.log(err))
+    .catch(err=>console.log(err));
 }
 </script>
 
