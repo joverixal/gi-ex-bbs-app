@@ -36,11 +36,22 @@ body {
 }
 
 .login-card {
-  max-width: 400px;
+  width: 100%;          /* take full width up to max */
+  max-width: 600px;     /* increase max width */
+  min-width: 350px;     /* optional: don't shrink too much */
   border-radius: 1rem;
   padding: 2rem;
   border-top: 5px solid #E41200;
-  background:#fff;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1); /* optional: adds subtle shadow */
+  transition: all 0.2s ease-in-out;
+}
+
+@media (min-width: 1200px) {
+  .login-card {
+    max-width: 700px;
+    padding: 3rem;
+  }
 }
 
 .login-logo {
