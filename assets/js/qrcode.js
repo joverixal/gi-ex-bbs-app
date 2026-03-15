@@ -21,7 +21,7 @@ $(document).ready(function() {
             return;
         }
 
-        // Create a new canvas for final image
+        // Create final canvas
         const finalCanvas = document.createElement('canvas');
         const ctx = finalCanvas.getContext('2d');
         const logo = new Image();
@@ -30,18 +30,17 @@ $(document).ready(function() {
         logo.onload = function() {
             const qrSize = 250;
             const padding = 20;
-            const logoMaxWidth = 60; // small logo
-            const logoMaxHeight = 60;
+            const logoMax = 60; // small logo
             const textHeight = 25;
 
             // Scale logo proportionally
             let logoWidth = logo.width;
             let logoHeight = logo.height;
-            const scale = Math.min(logoMaxWidth / logoWidth, logoMaxHeight / logoHeight, 1);
+            const scale = Math.min(logoMax / logoWidth, logoMax / logoHeight, 1);
             logoWidth *= scale;
             logoHeight *= scale;
 
-            // Final canvas height: QR + padding + logo + text
+            // Canvas size: logo + QR + padding + text
             finalCanvas.width = qrSize + padding * 2;
             finalCanvas.height = qrSize + padding * 2 + logoHeight + textHeight + 20;
 
@@ -49,20 +48,38 @@ $(document).ready(function() {
             ctx.fillStyle = "#ffffff";
             ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
 
-            // Draw QR code
-            ctx.drawImage(qrCanvas, padding, padding);
-
-            // Draw logo below QR code
+            // Draw logo on top
             const logoX = (finalCanvas.width - logoWidth) / 2;
-            const logoY = padding + qrSize + 10;
+            const logoY = padding;
             ctx.drawImage(logo, logoX, logoY, logoWidth, logoHeight);
 
-            // Draw Name and Batch Year in same row
-            ctx.fillStyle = "#E41200";
-            ctx.font = "bold 18px Arial";
+            // Draw QR below logo
+            const qrY = logoY + logoHeight + 10;
+            ctx.drawImage(qrCanvas, padding, qrY, qrSize, qrSize);
+
+            // Draw Name and Batch Year in same row with labels bold
+            const textY = qrY + qrSize + 25;
             ctx.textAlign = "center";
-            const textY = logoY + logoHeight + 20;
-            ctx.fillText(`${userName} | Batch ${batchYear}`, finalCanvas.width / 2, textY);
+
+            // Bold "Name:" part
+            ctx.font = "bold 18px Arial";
+            ctx.fillStyle = "#E41200";
+            ctx.fillText("Name: ", finalCanvas.width/2 - 80, textY);
+
+            // Regular name
+            ctx.font = "16px Arial";
+            ctx.fillStyle = "#000000";
+            ctx.fillText(userName, finalCanvas.width/2 - 15, textY);
+
+            // Bold "Batch Year:" part
+            ctx.font = "bold 18px Arial";
+            ctx.fillStyle = "#E41200";
+            ctx.fillText("Batch Year: ", finalCanvas.width/2 + 70, textY);
+
+            // Regular batch year
+            ctx.font = "16px Arial";
+            ctx.fillStyle = "#000000";
+            ctx.fillText(batchYear, finalCanvas.width/2 + 165, textY);
 
             // Download final image
             const link = document.createElement('a');
@@ -70,7 +87,7 @@ $(document).ready(function() {
             link.download = `${userName}_ANHS${batchYear}_QR.png`;
             link.click();
 
-            toastr.success("QR Code downloaded with logo, name, and batch year in same row!");
+            toastr.success("QR Code downloaded with logo and formatted Name/Batch Year!");
         };
     });
 });
