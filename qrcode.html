@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ge-iX FR App - ANHS 2011 QR Code</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#E41200">
+<link rel="icon" type="image/png" href="assets/images/app-icon.png">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="assets/vendor/bootstrap.min.css">
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="assets/vendor/bootstrap-icons.css">
+<!-- Toastr CSS -->
+<link rel="stylesheet" href="assets/vendor/toastr.min.css">
+<link rel="stylesheet" href="assets/css/footer.css">
+
+<!-- jQuery -->
+<script src="assets/vendor/jquery.min.js"></script>
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/toastr.min.js"></script>
+<script src="assets/vendor/toastr.min.js"></script>
+<script src="assets/js/jquery.qrcode.min.js"></script>
+<script src="assets/js/qrcode.js"></script>
+
+<style>
+body {
+  background-color: #f8f9fa;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.qrcode-card {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 1rem;
+  padding: 2rem;
+  border-top: 5px solid #E41200;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.qrcode-logo {
+  width: 90px;
+  margin-bottom: 10px;
+}
+
+.qrcode-title {
+  color: #E41200;
+  font-weight: 700;
+  margin-bottom:1.5rem;
+}
+
+#qrcode {
+  margin: 0 auto 1rem auto;
+}
+
+.qrcode-btn {
+  background-color: #FFA600 !important;
+  color: #fff !important;
+  border:none;
+  font-weight:600;
+  font-size:1.25rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:0.5rem;
+  transition: all 0.15s ease-in-out;
+}
+
+.qrcode-btn:hover{ background:#e69500 !important; }
+.qrcode-btn:active, .qrcode-btn:focus{ background:#cc8400 !important; transform: scale(0.97); }
+</style>
+</head>
+<body>
+
+<div class="qrcode-card">
+  <img src="assets/images/anhs-2011-logo.png" class="qrcode-logo" alt="ANHS 2011">
+  <h3 class="qrcode-title">Your QR Code</h3>
+
+  <!-- QR code container -->
+  <div id="qrcode"></div>
+
+  <!-- Download button -->
+  <button id="btn-download" class="btn qrcode-btn w-100 py-3 mt-3">
+    <i class="bi bi-download me-2"></i> Download QR Code
+  </button>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="assets/js/loadFooter.js"></script>
+
+<script>
+
+// Register service worker for PWA
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js')
+    .then(()=>console.log("SW registered"))
+    .catch(err=>console.log(err))
+}
+</script>
+
+</body>
+</html>
