@@ -5,7 +5,7 @@ $(document).ready(function() {
     const batchYear = '2011';
     const logoSrc = 'assets/images/anhs-2011-logo.png';
 
-    // Generate QR code in hidden canvas
+    // Generate QR code
     $('#qrcode').qrcode({
         text: guidId,
         width: 250,
@@ -31,7 +31,8 @@ $(document).ready(function() {
             const qrSize = 250;
             const padding = 20;
             const logoMax = 60; // small logo
-            const textHeight = 25;
+            const titleHeight = 25;
+            const infoHeight = 50; // Name + Batch stacked
 
             // Scale logo proportionally
             let logoWidth = logo.width;
@@ -40,46 +41,51 @@ $(document).ready(function() {
             logoWidth *= scale;
             logoHeight *= scale;
 
-            // Canvas size: logo + QR + padding + text
+            // Canvas size: logo + title + info + QR + padding
             finalCanvas.width = qrSize + padding * 2;
-            finalCanvas.height = qrSize + padding * 2 + logoHeight + textHeight + 20;
+            finalCanvas.height = logoHeight + titleHeight + infoHeight + qrSize + padding * 3;
 
             // Fill white background
             ctx.fillStyle = "#ffffff";
             ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
 
+            let currentY = padding;
+
             // Draw logo on top
             const logoX = (finalCanvas.width - logoWidth) / 2;
-            const logoY = padding;
-            ctx.drawImage(logo, logoX, logoY, logoWidth, logoHeight);
+            ctx.drawImage(logo, logoX, currentY, logoWidth, logoHeight);
+            currentY += logoHeight + 10;
 
-            // Draw QR below logo
-            const qrY = logoY + logoHeight + 10;
-            ctx.drawImage(qrCanvas, padding, qrY, qrSize, qrSize);
-
-            // Draw Name and Batch Year in same row with labels bold
-            const textY = qrY + qrSize + 25;
+            // Draw title
+            ctx.fillStyle = "#E41200";
+            ctx.font = "bold 20px Arial";
             ctx.textAlign = "center";
+            ctx.fillText("Your QR Code", finalCanvas.width / 2, currentY + 18);
+            currentY += titleHeight;
 
-            // Bold "Name:" part
-            ctx.font = "bold 18px Arial";
+            // Draw Name
             ctx.fillStyle = "#E41200";
-            ctx.fillText("Name: ", finalCanvas.width/2 - 80, textY);
+            ctx.font = "bold 16px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("Name:", finalCanvas.width / 2, currentY + 16);
 
-            // Regular name
-            ctx.font = "16px Arial";
             ctx.fillStyle = "#000000";
-            ctx.fillText(userName, finalCanvas.width/2 - 15, textY);
+            ctx.font = "16px Arial";
+            ctx.fillText(userName, finalCanvas.width / 2, currentY + 36);
+            currentY += 40;
 
-            // Bold "Batch Year:" part
-            ctx.font = "bold 18px Arial";
+            // Draw Batch Year
             ctx.fillStyle = "#E41200";
-            ctx.fillText("Batch Year: ", finalCanvas.width/2 + 70, textY);
+            ctx.font = "bold 16px Arial";
+            ctx.fillText("Batch Year:", finalCanvas.width / 2, currentY + 16);
 
-            // Regular batch year
-            ctx.font = "16px Arial";
             ctx.fillStyle = "#000000";
-            ctx.fillText(batchYear, finalCanvas.width/2 + 165, textY);
+            ctx.font = "16px Arial";
+            ctx.fillText(batchYear, finalCanvas.width / 2, currentY + 36);
+            currentY += 50;
+
+            // Draw QR code
+            ctx.drawImage(qrCanvas, padding, currentY, qrSize, qrSize);
 
             // Download final image
             const link = document.createElement('a');
@@ -87,7 +93,7 @@ $(document).ready(function() {
             link.download = `${userName}_ANHS${batchYear}_QR.png`;
             link.click();
 
-            toastr.success("QR Code downloaded with logo and formatted Name/Batch Year!");
+            toastr.success("QR Code downloaded matching UI layout!");
         };
     });
 });
