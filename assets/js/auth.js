@@ -12,7 +12,7 @@ $(document).ready(function () {
         setTimeout(function () {
             // show loader before redirect
             $loader.addClass('d-none');
-            window.location.href = "pos.html";
+            window.location.href = "scanqrcode.html";
         }, 300); // optional small delay for UX
     }
 
