@@ -25,7 +25,7 @@ $(document).ready(function () {
     // Wait 4 seconds (4000ms) before executing
     setTimeout(function() {
         window.location.href = "qrcode.html";
-    }, 5000);
+    }, 10000);
       
   });
 
