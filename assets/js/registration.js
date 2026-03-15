@@ -20,7 +20,7 @@ $(document).ready(function () {
           tshirtSize: $('#inp-tshirt').val()
       };
       
-      toastr.success("The registration has been successfully saved. For payment and activation, please contact your batch officer.");
+      toastr.success("Successfully registered. For payment and activation, please contact your batch officer.");
 
     // Wait 4 seconds (4000ms) before executing
     setTimeout(function() {
