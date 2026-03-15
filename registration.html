@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ge-iX FR App - ANHS 2011 Registration</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#E41200">
+<link rel="icon" type="image/png" href="assets/images/app-icon.png">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="assets/vendor/bootstrap.min.css">
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="assets/vendor/bootstrap-icons.css">
+<!-- Toastr CSS -->
+<link rel="stylesheet" href="assets/vendor/toastr.min.css">
+<link rel="stylesheet" href="assets/css/footer.css">
+
+<!-- jQuery -->
+<script src="assets/vendor/jquery.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<!-- Toastr JS -->
+<script src="assets/vendor/toastr.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+
+<style>
+body {
+  background-color: #f8f9fa;
+  padding: 20px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 600px;
+  min-width: 350px;
+  border-radius: 1rem;
+  padding: 2rem;
+  border-top: 5px solid #E41200;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+@media (min-width: 1200px) {
+  .register-card {
+    max-width: 600px;
+    padding: 3rem;
+  }
+}
+
+.register-logo {
+  width: 90px;
+  margin-bottom: 10px;
+}
+
+.register-title {
+  color: #E41200;
+  font-weight: 700;
+  margin-bottom:1rem;
+}
+
+.register-btn {
+  background-color: #FFA600 !important;
+  color: #fff !important;
+  border:none;
+  font-weight:600;
+  font-size:1.25rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:0.5rem;
+  transition: all 0.15s ease-in-out;
+}
+
+.register-btn:hover{ background:#e69500 !important; }
+.register-btn:active, .register-btn:focus{ background:#cc8400 !important; transform: scale(0.97); }
+
+.form-floating input, .form-floating select { height:50px; font-size:1rem; }
+.form-control:focus { border-color:#FFA600; box-shadow:0 0 0 0.2rem rgba(255,166,0,0.25);}
+</style>
+</head>
+<body>
+
+<div class="register-card text-center">
+  <img src="assets/images/anhs-2011-logo.png" class="register-logo" alt="ANHS 2011">
+  <h3 class="register-title">ANHS 2011 Registration</h3>
+
+  <div class="form-floating mb-3">
+    <input type="text" id="inp-firstname" class="form-control" placeholder="First Name" required>
+    <label for="inp-firstname">First Name <span style="color:red;">*</span></label>
+  </div>
+  
+  <div class="form-floating mb-3">
+    <input type="text" id="inp-lastname" class="form-control" placeholder="Last Name" required>
+    <label for="inp-lastname">Last Name <span style="color:red;">*</span></label>
+  </div>
+  
+  <div class="form-floating mb-3">
+    <select id="inp-gender" class="form-control" required>
+      <option value="" selected disabled>Select Gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+    <label for="inp-gender">Gender <span style="color:red;">*</span></label>
+  </div>
+  
+  <div class="form-floating mb-3">
+    <input type="date" id="inp-birthdate" class="form-control" placeholder="Birthdate" required>
+    <label for="inp-birthdate">Birthdate <span style="color:red;">*</span></label>
+  </div>
+  
+  <div class="form-floating mb-3">
+    <input type="text" id="inp-contact" class="form-control" placeholder="Contact Number" required>
+    <label for="inp-contact">Contact Number <span style="color:red;">*</span></label>
+  </div>
+  
+  <div class="form-floating mb-3">
+    <input type="text" id="inp-address" class="form-control" placeholder="Address" required>
+    <label for="inp-address">Address <span style="color:red;">*</span></label>
+  </div>
+  
+  <!-- Optional Fields -->
+  <div class="form-floating mb-3">
+    <input type="text" id="inp-batchyear" class="form-control" placeholder="Batch Year">
+    <label for="inp-batchyear">Batch Year</label>
+  </div>
+  
+  <div class="form-floating mb-3">
+    <select id="inp-tshirt" class="form-control">
+      <option value="" selected disabled>Select T-Shirt Size</option>
+      <option value="S">S</option>
+      <option value="M">M</option>
+      <option value="L">L</option>
+      <option value="XL">XL</option>
+      <option value="XXL">XXL</option>
+    </select>
+    <label for="inp-tshirt">T-Shirt Size</label>
+  </div>
+
+  <button id="btn-register" class="btn register-btn w-100 py-3">
+    <i class="bi bi-person-plus me-2"></i> Register
+  </button>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="assets/js/loadFooter.js"></script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js')
+    .then(()=>console.log("SW registered"))
+    .catch(err=>console.log(err))
+}
+
+// Example: handle registration button
+$('#btn-register').click(function(){
+    const runner = {
+        firstName: $('#inp-firstname').val(),
+        lastName: $('#inp-lastname').val(),
+        gender: $('#inp-gender').val(),
+        birthdate: $('#inp-birthdate').val(),
+        batchYear: $('#inp-batchyear').val(),
+        contact: $('#inp-contact').val()
+    };
+    
+    console.log("Runner Data:", runner);
+    toastr.success("Registration data captured (demo only)");
+});
+</script>
+
+</body>
+</html>
