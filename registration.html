@@ -22,7 +22,7 @@
 <!-- Toastr JS -->
 <script src="assets/vendor/toastr.min.js"></script>
 <script src="assets/js/config.js"></script>
-<script src="assets/js/auth.js"></script>
+<script src="assets/js/registration.js"></script>
 
 <style>
 body {
@@ -175,23 +175,6 @@ if ('serviceWorker' in navigator) {
     .then(()=>console.log("SW registered"))
     .catch(err=>console.log(err))
 }
-
-// Example: handle registration button
-$('#btn-register').click(function(){
-    const runner = {
-        firstName: $('#inp-firstname').val(),
-        lastName: $('#inp-lastname').val(),
-        gender: $('#inp-gender').val(),
-        birthdate: $('#inp-birthdate').val(),
-        batchYear: $('#inp-batchyear').val(),
-        contact: $('#inp-contact').val(),
-        address: $('#inp-address').val(),
-        tshirtSize: $('#inp-tshirt').val()
-    };
-    
-    console.log("Runner Data:", runner);
-    toastr.success("Registration data captured (demo only)");
-});
 </script>
 
 </body>
