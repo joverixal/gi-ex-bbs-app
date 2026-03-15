@@ -56,7 +56,7 @@ $(document).ready(function () {
                     localStorage.setItem("isLoggedIn", true);
                     localStorage.setItem("user", JSON.stringify(response.user));
 
-                    window.location.href = "pos.html"; // redirect to main menu
+                    window.location.href = "scanqrcode.html"; // redirect to main menu
 
                 } else {
                     toastr.error(response.message || "Invalid username or password");
