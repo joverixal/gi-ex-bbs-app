@@ -1,12 +1,19 @@
 $(document).ready(function() {
     // Example GUID and user info
     const guidId = '123e4567-e89b-12d3-a456-426614174000';
-    const userName = 'Joverixal Entuna';
+    const firstName = 'Joverixal';
+    const lastName = 'Joverixal';
+    
     const batchYear = '2011';
     const logoSrc = 'assets/images/anhs-2011-logo.png';
 
     // Generate QR code
-    const qrData = "Name:Joverixal Entuna;Batch:2011";
+    // JSON data to encode in QR
+    const qrData = JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+    });
+
     const qrcodeContainer = document.getElementById("qrcode");
     qrcodeContainer.innerHTML = ""; // clear previous QR code
     new QRCode(qrcodeContainer, {
