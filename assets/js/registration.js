@@ -171,6 +171,7 @@ $(document).ready(function () {
   
           // Create a canvas
           const canvas = document.createElement('canvas');
+          const size = 150;
           canvas.width = 150;
           canvas.height = 150 + 50; // 50px for text
           const ctx = canvas.getContext('2d');
