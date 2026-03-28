@@ -97,7 +97,7 @@ $(document).ready(function () {
   $('#btn-back-review').on('click', function() {showTab('#tab-payment', 3);});
   
   $('#btn-next-review').on('click', function() {
-      generateQRCode();
+      buildSuccessContent();
       showTab('#tab-success', 5);
   });
 
@@ -140,64 +140,63 @@ $(document).ready(function () {
     });
   }
 
-  function generateQRCode(){
+  function buildSuccessContent() {
     const guidId = '123e4567-e89b-12d3-a456-426614174000';
     const firstname = $('#inp-firstname').val().trim().toUpperCase();
+    const lastname = $('#inp-lastname').val().trim().toUpperCase(); // if you have lastname field
+    const fullName = `${firstname} ${lastname}`;
     const currentDateTime = getCurrentDateTime();
     const fileName = `${firstname}_${currentDateTime}`;
     const baseUrl = "https://your-verification-link.com";
+
     // Build the full link dynamically
     const verificationUrl = `${baseUrl}?id=${guidId}`;
+
+    // Display Title and Name
+    $("#success-title").text("ANHS Alumni Run 2026");
+    $("#participant-name").text(fullName);
+
     // Update link href and text
     $("#verification-link").attr("href", verificationUrl).text("Check Registration Status");
-    
-    // Generate QR code
-    // JSON data to encode in QR
-    const qrData = JSON.stringify({
-        Id: guidId,
-    });
 
-    // Generate QR Code
+    // Generate QR code
+    const qrData = JSON.stringify({ Id: guidId });
     var qrcode = new QRCode($("#qrcode")[0], {
-      text: qrData,
-      width: 150,
-      height: 150,
-      colorDark : "#000000",
-      colorLight : "#ffffff",
-      correctLevel : QRCode.CorrectLevel.H
+        text: qrData,
+        width: 150,
+        height: 150,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
     });
 
     // Download QR code as image using jQuery
     $("#btn-download-qr").on("click", function() {
-      var qrImg = $("#qrcode img");
-      if (!qrImg.length) {
-        alert("QR code not generated yet.");
-        return;
-      }
+        var qrImg = $("#qrcode img");
+        if (!qrImg.length) {
+            alert("QR code not generated yet.");
+            return;
+        }
 
-      // Create temporary link and trigger download
-      $("<a>")
-        .attr("href", qrImg.attr("src"))
-        .attr("download", `ANHS_RUN_Registration_QR_${fileName}.png`)[0]
-        .click();
+        $("<a>")
+            .attr("href", qrImg.attr("src"))
+            .attr("download", `ANHS_RUN_QR_${fileName}.png`)[0]
+            .click();
     });
-  }
+}
 
-  function getCurrentDateTime(){
-    $(document).ready(function() {
-      // Get current date and time
+  // Corrected getCurrentDateTime function
+  function getCurrentDateTime() {
       var now = new Date(); // JavaScript Date object
   
-      // Format as YYYY-MM-DD HH:MM:SS
-      var formatted = now.getFullYear() + "" +
-                      String(now.getMonth() + 1).padStart(2, '0') + "" +
+      // Format as YYYYMMDD_HHMMSS
+      var formatted = now.getFullYear() +
+                      String(now.getMonth() + 1).padStart(2, '0') +
                       String(now.getDate()).padStart(2, '0') + "_" +
-                      String(now.getHours()).padStart(2, '0') + "" +
-                      String(now.getMinutes()).padStart(2, '0') + "" +
+                      String(now.getHours()).padStart(2, '0') +
+                      String(now.getMinutes()).padStart(2, '0') +
                       String(now.getSeconds()).padStart(2, '0');
-  
       return formatted;
-    });
   }
 
 });
