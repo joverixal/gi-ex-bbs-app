@@ -164,54 +164,51 @@ $(document).ready(function () {
       });
   
       setTimeout(function() {
-          const qrImg = $("#qrcode img")[0];
-          if (!qrImg) return;
-  
-          // Define margins and sizes
-          const margin = 15;         // space around QR
-          const qrSize = 200;        // original QR size
-          const textSpace = 50;      // space for title + name
-          const canvasWidth = qrSize + margin * 2;
-          const canvasHeight = qrSize + textSpace + margin * 2;
-  
-          // Create canvas
-          const canvas = document.createElement('canvas');
-          canvas.width = canvasWidth;
-          canvas.height = canvasHeight;
-          const ctx = canvas.getContext('2d');
-  
-          // White background
-          ctx.fillStyle = "#ffffff";
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
-          // Draw QR code centered with margin
-          ctx.drawImage(qrImg, margin, margin, qrSize, qrSize);
-  
-          // Text styling
-          ctx.textAlign = "center";
-          ctx.fillStyle = "#000000";
-          ctx.font = "bold 16px Arial";
-  
-          // Event title
-          ctx.fillText(eventTitle, canvasWidth / 2, qrSize + margin + 20);
-  
-          // Participant name
-          ctx.font = "14px Arial";
-          ctx.fillText(fullName, canvasWidth / 2, qrSize + margin + 40);
-  
-          // Replace QR div with canvas
-          $("#qrcode").empty().append(canvas);
-          $("#qrcode canvas").css({ display: "block", margin: "0 auto" });
-  
-          // Download button
-          $("#btn-download-qr").off("click").on("click", function(e) {
-              e.preventDefault();
-              const link = document.createElement('a');
-              link.href = canvas.toDataURL("image/png");
-              link.download = `ANHS_RUN_QR_${fileName}.png`;
-              link.click();
-          });
-      }, 300);
+        const qrImg = $("#qrcode img")[0];
+        if (!qrImg) return;
+    
+        // Wait for the QR image to fully load
+        qrImg.onload = function() {
+            const margin = 15;
+            const qrSize = 200;
+            const textSpace = 50;
+            const canvasWidth = qrSize + margin * 2;
+            const canvasHeight = qrSize + textSpace + margin * 2;
+    
+            const canvas = document.createElement('canvas');
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+            const ctx = canvas.getContext('2d');
+    
+            // White background
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+            // Draw QR code
+            ctx.drawImage(qrImg, margin, margin, qrSize, qrSize);
+    
+            // Add text
+            ctx.textAlign = "center";
+            ctx.fillStyle = "#000000";
+            ctx.font = "bold 16px Arial";
+            ctx.fillText(eventTitle, canvasWidth / 2, qrSize + margin + 20);
+            ctx.font = "14px Arial";
+            ctx.fillText(fullName, canvasWidth / 2, qrSize + margin + 40);
+    
+            // Replace QR div with canvas
+            $("#qrcode").empty().append(canvas);
+            $("#qrcode canvas").css({ display: "block", margin: "0 auto" });
+    
+            // Download button
+            $("#btn-download-qr").off("click").on("click", function(e) {
+                e.preventDefault();
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL("image/png");
+                link.download = `ANHS_RUN_QR_${fileName}.png`;
+                link.click();
+            });
+        };
+    }, 100);
   }
   
   function getCurrentDateTime() {
