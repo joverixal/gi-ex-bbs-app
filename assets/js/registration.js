@@ -81,12 +81,7 @@ $(document).ready(function () {
   // Back buttons
   $('#btn-back-ride').click(()=>showTab('#tab-basic',1));
   $('#btn-back-payment').click(()=>showTab('#tab-ride',2));
-  $('#btn-back-review').on('click', function() {
-      $('.tab-pane').removeClass('active');
-      $('#tab-payment').addClass('active');
-      $('.step-indicator').removeClass('active');
-      $('.step-indicator[data-step="3"]').addClass('active');
-  });
+  $('#btn-back-review').on('click', function() {showTab('#tab-payment', 3);});
   
   $('#btn-next-review').on('click', function() {
       showTab('#tab-success', 5);
