@@ -95,11 +95,29 @@ $(document).ready(function () {
     buildSuccessContent();
 
     // Hide all tabs and step indicators
-    $('#frm-registration .tab-pane').hide(); // hide all tab panes
-    $('.step-indicator').hide();             // hide step indicators
+    $('#frm-registration .tab-pane').hide();
+    $('.step-indicator').hide();
 
     // Show only the success content
     $('#tab-success').show();
+
+    // Countdown auto-download (3 seconds)
+    let countdown = 3;
+    const originalText = "Download QR Code";
+    $('#btn-download-qr').prop('disabled', true); // disable manual click during countdown
+
+    const countdownInterval = setInterval(() => {
+        if(countdown <= 0){
+            clearInterval(countdownInterval);
+            $('#btn-download-qr').prop('disabled', false).text(originalText); // restore button
+            // Trigger QR download automatically
+            $('#btn-download-qr').click();
+            toastr.success("QR code downloaded automatically!");
+        } else {
+            $('#btn-download-qr').text(`${originalText} (${countdown})`);
+            countdown--;
+        }
+    }, 1000);
   });
 
   function emptyStateLabel(value){
