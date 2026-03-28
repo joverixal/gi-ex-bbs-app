@@ -143,7 +143,7 @@ $(document).ready(function () {
   function generateQRCode(){
     const guidId = '123e4567-e89b-12d3-a456-426614174000';
     const firstname = $('#inp-firstname').val().trim().toUpperCase();
-    const currentDateTime = moment().format("YYYYMMDD hhmmA"); // format as you like
+    const currentDateTime = currentDateTime();
     const fileName = `${firstname}_${currentDateTime}`;
     const baseUrl = "https://your-verification-link.com";
     // Build the full link dynamically
@@ -180,6 +180,23 @@ $(document).ready(function () {
         .attr("href", qrImg.attr("src"))
         .attr("download", `ANHS_RUN_Registration_QR_${fileName}.png`)[0]
         .click();
+    });
+  }
+
+  function currentDateTime(){
+    $(document).ready(function() {
+      // Get current date and time
+      var now = new Date(); // JavaScript Date object
+  
+      // Format as YYYY-MM-DD HH:MM:SS
+      var formatted = now.getFullYear() + "" +
+                      String(now.getMonth() + 1).padStart(2, '0') + "" +
+                      String(now.getDate()).padStart(2, '0') + "_" +
+                      String(now.getHours()).padStart(2, '0') + "" +
+                      String(now.getMinutes()).padStart(2, '0') + "" +
+                      String(now.getSeconds()).padStart(2, '0');
+  
+      return formatted;
     });
   }
 
