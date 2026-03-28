@@ -86,10 +86,6 @@
       height: 45px;
     }
     .row.g-3 { --bs-gutter-x: 0.5rem; --bs-gutter-y: 0.5rem; }
-
-    .register-logo {
-      width: 40px; /* smaller logo on mobile */
-    }
   }
 
   /* Step indicators with titles */
@@ -343,4 +339,23 @@
           </div>
         </div>
       </div>
-      <div class="mt
+      <div class="mt-4 d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" id="btn-back-review">Back</button>
+        <button type="button" class="btn register-btn" id="btn-next-review">Confirm & Submit</button>
+      </div>
+    </div>
+
+    <!-- Tab 5: Success -->
+    <div class="tab-pane text-center" id="tab-success">
+      <h4 class="text-success">Pre-Registration Successful!</h4>
+      <p>Thank you for registering. Please wait for verification and further instructions.</p>
+    </div>
+
+  </form>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="../assets/js/loadFooter.js"></script>
+
+</body>
+</html>
