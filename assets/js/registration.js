@@ -15,11 +15,11 @@ $(document).ready(function () {
   $('#frm-registration').on('submit', function(e) {
       let contactNumber = $('#inp-contact').cleanVal(); // get digits only
       if (contactNumber.length !== 11) {
-          e.preventDefault();
           toastr.error("Contact number must be exactly 11 digits.");
+          e.preventDefault();
       }
 
-      toastr.sucess("Continue");
+      toastr.success("Continue");
     
       const runner = {
             firstName: $('#inp-firstname').val(),
