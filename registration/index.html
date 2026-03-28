@@ -140,6 +140,48 @@
     color: #7A2BE2;
   }
 
+  /* Hide radio circle */
+  .pill-option .form-check-input {
+    display: none;
+  }
+  
+  /* Base pill style */
+  .pill-option {
+    border: 1px solid #ddd;
+    border-radius: 999px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #f8f9fa;
+  }
+  
+  /* Label spacing fix */
+  .pill-option .form-check-label {
+    margin: 0;
+    cursor: pointer;
+  }
+  
+  /* Hover effect */
+  .pill-option:hover {
+    border-color: #7A2BE2;
+    background: #f3edff;
+  }
+  
+  /* SELECTED STATE (strong emphasis) */
+  .pill-option .form-check-input:checked + .form-check-label {
+    font-weight: 600;
+    color: #fff;
+  }
+  
+  /* Highlight selected container */
+  .pill-option:has(.form-check-input:checked) {
+    background: linear-gradient(135deg, #7A2BE2, #00B7C2);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(122,43,226,0.3);
+    transform: scale(1.05);
+  }
+
 </style>
 </head>
 
@@ -192,17 +234,18 @@
             <label for="inp-lastname">Last name<span class="text-danger">*</span></label>
           </div>
         </div>
+        <!-- Gender -->
         <div class="col-6">
           <label class="form-label fw-semibold">
             Gender<span class="text-danger">*</span>
           </label>
-          <div class="d-flex gap-3 mt-1">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male">
+          <div class="d-flex gap-2 mt-1">
+            <div class="form-check pill-option">
+              <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male" required>
               <label class="form-check-label" for="genderMale">Male</label>
             </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female">
+            <div class="form-check pill-option">
+              <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female" required>
               <label class="form-check-label" for="genderFemale">Female</label>
             </div>
           </div>
@@ -231,28 +274,29 @@
             <label for="inp-address">Address<span class="text-danger">*</span></label>
           </div>
         </div>
+        <!-- T-Shirt -->
         <div class="col-6">
           <label class="form-label fw-semibold">
             T-Shirt Size<span class="text-danger">*</span>
           </label>
           <div class="d-flex flex-wrap gap-2 mt-1">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="tshirt" id="sizeS" value="S">
+            <div class="form-check pill-option">
+              <input class="form-check-input" type="radio" name="tshirt" id="sizeS" value="S" required>
               <label class="form-check-label" for="sizeS">S</label>
             </div>
-            <div class="form-check">
+            <div class="form-check pill-option">
               <input class="form-check-input" type="radio" name="tshirt" id="sizeM" value="M">
               <label class="form-check-label" for="sizeM">M</label>
             </div>
-            <div class="form-check">
+            <div class="form-check pill-option">
               <input class="form-check-input" type="radio" name="tshirt" id="sizeL" value="L">
               <label class="form-check-label" for="sizeL">L</label>
             </div>
-            <div class="form-check">
+            <div class="form-check pill-option">
               <input class="form-check-input" type="radio" name="tshirt" id="sizeXL" value="XL">
               <label class="form-check-label" for="sizeXL">XL</label>
             </div>
-            <div class="form-check">
+            <div class="form-check pill-option">
               <input class="form-check-input" type="radio" name="tshirt" id="sizeXXL" value="XXL">
               <label class="form-check-label" for="sizeXXL">XXL</label>
             </div>
