@@ -38,7 +38,7 @@ $(document).ready(function () {
     const currentYear = 2026;
     const startYear = currentYear - 70;
 
-    let options = '<option value="" selected disabled>Select batch year</option>';
+    let options = '<option value="" selected>N/A</option>';
 
     for (let year = currentYear; year >= startYear; year--) {
         options += `<option value="${year}">${year}</option>`;
