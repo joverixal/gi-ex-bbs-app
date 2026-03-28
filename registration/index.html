@@ -354,13 +354,23 @@
     <div class="tab-pane text-center" id="tab-success">
       <h4 class="text-success">Pre-Registration Successful!</h4>
       <p>Thank you for registering. Your details have been submitted successfully.</p>
-      <p>Please wait for verification. Once your registration is verified and activated, you can check your status here:</p>
+    
+      <p><strong>Important:</strong> To check if your registration has been verified and activated, you <u>must scan the QR code below</u>. This QR code is required to access your registration status.</p>
+    
+      <p>Or, you can visit this link to check your status:</p>
       <p>
         <a href="https://your-verification-link.com" target="_blank" class="text-primary fw-semibold">
           Check Registration Status
         </a>
       </p>
-      <p>We’ll notify you if there are any issues with your registration.</p>
+    
+      <!-- QR Code Container -->
+      <div id="qrcode" class="my-3 mx-auto" style="width:150px; height:150px;"></div>
+    
+      <!-- Download Button -->
+      <button id="btn-download-qr" class="btn register-btn mt-2">Download QR Code</button>
+    
+      <p class="mt-3">We’ll notify you if there are any issues with your registration.</p>
     </div>
 
   </form>
