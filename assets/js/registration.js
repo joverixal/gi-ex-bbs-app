@@ -44,18 +44,25 @@ $(document).ready(function () {
       }
       // Birthdate ≥10 years
       if(tabId=='#tab-basic'){
-          let birth = new Date($('#inp-birthdate').val());
-          let minDate = new Date(); minDate.setFullYear(minDate.getFullYear()-10);
+          const birth = new Date($('#inp-birthdate').val());
+          const minDate = new Date(); minDate.setFullYear(minDate.getFullYear()-10);
+          const contact = $('#inp-contact').cleanVal();
+          const gender = $('input[name="gender"]:checked').val();
+          const tshirt = $('input[name="tshirt"]:checked').val();
           if(birth > minDate){
               toastr.error("Registrant must be at least 10 years old.");
               valid=false;
-          }
-          // Contact 11 digits
-          let contact = $('#inp-contact').cleanVal();
-          if(contact.length > 0 && contact.length!==11){
+          }else if(contact.length!==11){
               toastr.error("Contact number must be 11 digits.");
               valid=false;
+          }else if(gender == ''){
+              toastr.error("Select gender.");
+              valid=false;
           }
+          else if(tshirt == ''){
+                toastr.error("Select T-Shirt size.");
+                valid=false;
+            }        
       }
       return valid;
   }
