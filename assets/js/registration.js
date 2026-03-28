@@ -136,62 +136,82 @@ $(document).ready(function () {
   }
 
   function buildSuccessContent() {
-    const guidId = '123e4567-e89b-12d3-a456-426614174000';
-    const firstname = $('#inp-firstname').val().trim().toUpperCase();
-    const lastname = $('#inp-lastname').val().trim().toUpperCase(); // if you have lastname field
-    const fullName = `${firstname} ${lastname}`;
-    const currentDateTime = getCurrentDateTime();
-    const fileName = `${firstname}_${currentDateTime}`;
-    const baseUrl = "https://your-verification-link.com";
-
-    // Build the full link dynamically
-    const verificationUrl = `${baseUrl}?id=${guidId}`;
-
-    // Display Title and Name
-    $("#success-title").text("ANHS Alumni Run 2026");
-    $("#participant-name").text(fullName);
-
-    // Update link href and text
-    $("#verification-link").attr("href", verificationUrl).text("Check Registration Status");
-
-    // Generate QR code
-    const qrData = JSON.stringify({ Id: guidId });
-    var qrcode = new QRCode($("#qrcode")[0], {
-        text: qrData,
-        width: 150,
-        height: 150,
-        colorDark: "#000000",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.H
-    });
-
-    // Download button functionality without refreshing the page
-    $("#btn-download-qr").off("click").on("click", function(e) {
-        e.preventDefault(); // Prevent form submission or page refresh
-        const canvas = $("#qrcode canvas")[0];
-        if (!canvas) {
-            alert("QR code not generated yet.");
-            return;
-        }
-        const link = document.createElement('a');
-        link.href = canvas.toDataURL("image/png");
-        link.download = `ANHS_RUN_QR_${fileName}.png`;
-        link.click();
-    });
-}
-
+      const guidId = '123e4567-e89b-12d3-a456-426614174000';
+      const firstname = $('#inp-firstname').val().trim().toUpperCase();
+      const lastname = $('#inp-lastname').val().trim().toUpperCase();
+      const fullName = `${firstname} ${lastname}`;
+      const eventTitle = "ANHS Alumni Run 2026";
+      const currentDateTime = getCurrentDateTime();
+      const fileName = `${firstname}_${currentDateTime}`;
+      const baseUrl = "https://your-verification-link.com";
+      const verificationUrl = `${baseUrl}?id=${guidId}`;
+  
+      // Display title and participant name separately
+      $("#verification-link").attr("href", verificationUrl).text("Check Registration Status");
+  
+      // Clear any previous QR
+      $("#qrcode").empty();
+  
+      // Generate QR code to a hidden div
+      const qrData = JSON.stringify({ Id: guidId });
+      var qrCode = new QRCode($("#qrcode")[0], {
+          text: qrData,
+          width: 200,
+          height: 200,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H
+      });
+  
+      // Wait a little to ensure QR code is generated, then overlay text
+      setTimeout(function() {
+          // Get QR code image
+          const qrImg = $("#qrcode img")[0];
+          if (!qrImg) return;
+  
+          // Create a canvas
+          const canvas = document.createElement('canvas');
+          const size = 250; // final canvas size
+          canvas.width = size;
+          canvas.height = size + 50; // extra space for text
+          const ctx = canvas.getContext('2d');
+  
+          // Draw QR code
+          ctx.drawImage(qrImg, 25, 0, 200, 200);
+  
+          // Add event title
+          ctx.font = "bold 16px Arial";
+          ctx.textAlign = "center";
+          ctx.fillStyle = "#000";
+          ctx.fillText(eventTitle, size / 2, 220);
+  
+          // Add participant name
+          ctx.font = "14px Arial";
+          ctx.fillText(fullName, size / 2, 240);
+  
+          // Replace QR div with canvas
+          $("#qrcode").empty().append(canvas);
+  
+          // Download button functionality
+          $("#btn-download-qr").off("click").on("click", function(e) {
+            e.preventDefault();
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL("image/png");
+            link.download = `ANHS_RUN_QR_${fileName}.png`;
+            link.click();
+          });
+      }, 300);
+  }
+  
   // Corrected getCurrentDateTime function
   function getCurrentDateTime() {
-      var now = new Date(); // JavaScript Date object
-  
-      // Format as YYYYMMDD_HHMMSS
-      var formatted = now.getFullYear() +
-                      String(now.getMonth() + 1).padStart(2, '0') +
-                      String(now.getDate()).padStart(2, '0') + "_" +
-                      String(now.getHours()).padStart(2, '0') +
-                      String(now.getMinutes()).padStart(2, '0') +
-                      String(now.getSeconds()).padStart(2, '0');
-      return formatted;
+      const now = new Date();
+      return now.getFullYear() +
+             String(now.getMonth() + 1).padStart(2, '0') +
+             String(now.getDate()).padStart(2, '0') + "_" +
+             String(now.getHours()).padStart(2, '0') +
+             String(now.getMinutes()).padStart(2, '0') +
+             String(now.getSeconds()).padStart(2, '0');
   }
 
 });
