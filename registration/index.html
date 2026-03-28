@@ -153,6 +153,10 @@
     </div>
     <div class="step-indicator" data-step="4">
       <div class="step-number">4</div>
+      <div class="step-title">Review</div>
+    </div>
+    <div class="step-indicator" data-step="4">
+      <div class="step-number">6</div>
       <div class="step-title">Success</div>
     </div>
   </div>
@@ -263,7 +267,27 @@
       </div>
     </div>
 
-    <!-- Tab 4: Success -->
+    <!-- Tab 4: Review -->
+    <div class="tab-pane" id="tab-review">
+      <h5>Review Your Details</h5>
+      <div class="mb-3 text-start">
+        <p><strong>Full Name:</strong> <span id="review-fullname"></span></p>
+        <p><strong>Gender:</strong> <span id="review-gender"></span></p>
+        <p><strong>Birthdate:</strong> <span id="review-birthdate"></span></p>
+        <p><strong>Contact Number:</strong> <span id="review-contact"></span></p>
+        <p><strong>Batch Year:</strong> <span id="review-batch"></span></p>
+        <p><strong>Address:</strong> <span id="review-address"></span></p>
+        <p><strong>T-Shirt Size:</strong> <span id="review-tshirt"></span></p>
+        <p><strong>Run Category:</strong> <span id="review-category"></span></p>
+        <p><strong>Payment Proof:</strong> <span id="review-payment">Uploaded</span></p>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" id="btn-back-review">Back</button>
+        <button type="button" class="btn register-btn" id="btn-next-review">Confirm & Submit</button>
+      </div>
+    </div>
+
+    <!-- Tab 5: Success -->
     <div class="tab-pane text-center" id="tab-success">
       <h4 class="text-success">Pre-Registration Successful!</h4>
       <p>Thank you for registering. Please wait for verification and further instructions.</p>
