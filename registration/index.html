@@ -132,16 +132,20 @@
   /* Force Review tab columns always 2 */
   #tab-review .col-6 { width: 50%; float: left; box-sizing: border-box; }
 
-  /* Center QR canvas inside its container */
+  /* Make QR canvas center in the container */
   #qrcode {
-      display: flex;          /* use flexbox */
-      justify-content: center;/* horizontal center */
-      align-items: center;    /* vertical center if needed */
-      flex-direction: column; /* stack canvas and any text vertically */
+      display: flex;
+      justify-content: center; /* horizontal center */
+      align-items: center;     /* vertical center if needed */
+      flex-direction: column;  /* stack canvas vertically */
+      margin-bottom: 20px;     /* space below canvas */
   }
+  
+  /* Ensure canvas is block element */
   #qrcode canvas {
       display: block;
-      margin: 0 auto;         /* just in case */
+      max-width: 100%;         /* responsive */
+      height: auto;
   }
 
 </style>
@@ -363,13 +367,12 @@
     </div>
 
     <!-- Tab 5: Success -->
-    <div class="tab-pane text-center" id="tab-success">
-      <h4 class="text-success">Pre-Registration Successful!</h4>
+    <div id="tab-success" class="tab-pane text-center">
       <p>Thank you for registering. Your details have been submitted successfully.</p>
     
-      <p><strong>Important:</strong> To check if your registration has been verified and activated, you <u>must scan the QR code below</u>. This QR code is required to access your registration status.</p>
+      <p><strong>Important:</strong>This QR code is required to access your registration status.</p>
     
-      <p>Or, you can visit this link to check your status:</p>
+      <p>You can visit this link to check your status:</p>
       <p>
         <a id="verification-link" target="_blank" class="text-primary fw-semibold">
           Check Registration Status
@@ -377,7 +380,7 @@
       </p>
     
       <!-- QR Code Container -->
-      <div id="qrcode" class="my-3 mx-auto" style="width:150px; height:150px;"></div>
+      <div id="qrcode" class="my-3 mx-auto"></div> <!-- remove fixed height -->
     
       <!-- Download Button -->
       <button id="btn-download-qr" type="button" class="btn register-btn mt-2">Download QR Code</button>
