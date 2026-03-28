@@ -126,6 +126,20 @@
   .tab-pane { display:none; }
   .tab-pane.active { display:block; }
 
+  .form-check-input:checked {
+    background-color: #7A2BE2;
+    border-color: #7A2BE2;
+  }
+  .form-check {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+  .form-check-input:checked + .form-check-label {
+    font-weight: 600;
+    color: #7A2BE2;
+  }
+
 </style>
 </head>
 
@@ -179,13 +193,18 @@
           </div>
         </div>
         <div class="col-6">
-          <div class="form-floating">
-            <select id="sel-gender" class="form-control" required>
-              <option value="" selected disabled>Select gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
-            <label for="sel-gender">Gender<span class="text-danger">*</span></label>
+          <label class="form-label fw-semibold">
+            Gender<span class="text-danger">*</span>
+          </label>
+          <div class="d-flex gap-3 mt-1">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male">
+              <label class="form-check-label" for="genderMale">Male</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female">
+              <label class="form-check-label" for="genderFemale">Female</label>
+            </div>
           </div>
         </div>
         <div class="col-6">
@@ -196,8 +215,8 @@
         </div>
         <div class="col-6">
           <div class="form-floating">
-            <input type="text" id="inp-contact" class="form-control" placeholder="Contact number">
-            <label for="inp-contact">Contact number</label>
+            <input type="text" id="inp-contact" class="form-control" placeholder="Contact number" required>
+            <label for="inp-contact">Contact number<span class="text-danger">*</span></label>
           </div>
         </div>
         <div class="col-6">
@@ -213,16 +232,30 @@
           </div>
         </div>
         <div class="col-6">
-          <div class="form-floating">
-            <select id="sel-tshirt" class="form-control" required>
-              <option value="" selected disabled>Select T-Shirt size</option>
-              <option value="S">S</option>
-              <option value="M">M</option>
-              <option value="L">L</option>
-              <option value="XL">XL</option>
-              <option value="XXL">XXL</option>
-            </select>
-            <label for="sel-tshirt">T-Shirt Size<span class="text-danger">*</span></label>
+          <label class="form-label fw-semibold">
+            T-Shirt Size<span class="text-danger">*</span>
+          </label>
+          <div class="d-flex flex-wrap gap-2 mt-1">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="tshirt" id="sizeS" value="S">
+              <label class="form-check-label" for="sizeS">S</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="tshirt" id="sizeM" value="M">
+              <label class="form-check-label" for="sizeM">M</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="tshirt" id="sizeL" value="L">
+              <label class="form-check-label" for="sizeL">L</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="tshirt" id="sizeXL" value="XL">
+              <label class="form-check-label" for="sizeXL">XL</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="tshirt" id="sizeXXL" value="XXL">
+              <label class="form-check-label" for="sizeXXL">XXL</label>
+            </div>
           </div>
         </div>
       </div>
