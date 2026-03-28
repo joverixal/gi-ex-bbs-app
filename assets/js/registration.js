@@ -41,7 +41,7 @@ $(document).ready(function () {
       }
       // Birthdate ≥10 years
       if(tabId=='#tab-basic'){
-        $(tabId).find('input[required], select[required]').each(function() {
+        $(tabId).find('input[required]').each(function() {
           if(!this.checkValidity()) { this.reportValidity(); valid=false; return false; }
         });
 
