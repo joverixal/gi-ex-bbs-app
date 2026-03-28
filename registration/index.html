@@ -90,6 +90,10 @@
       --bs-gutter-x: 0.5rem;
       --bs-gutter-y: 0.5rem;
     }
+
+    .register-logo {
+      width: 40px; /* smaller logo on mobile */
+    }
   }
   
   /* Step indicators with titles */
@@ -194,9 +198,12 @@
 <body>
 
 <div class="container py-4" style="max-width:700px;">
-  <div class="text-center mb-4">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <!-- Title on the left -->
+    <h3 class="register-title mb-0">ANHS Alumni Run 2026</h3>
+  
+    <!-- Logo on the right -->
     <img src="../assets/images/anhs-2011-logo.png" class="register-logo" alt="ANHS 2011">
-    <h3 class="register-title">ANHS Alumni Run 2026</h3>
   </div>
 
   <!-- Step Indicators -->
