@@ -135,13 +135,11 @@
   /* Make QR canvas center in the container */
   #qrcode {
       display: flex;
-      justify-content: center; /* horizontal center */
-      align-items: center;     /* vertical center if needed */
-      flex-direction: column;  /* stack canvas vertically */
-      margin-bottom: 20px;     /* space below canvas */
+      justify-content: center; /* horizontally center */
+      align-items: center;     /* vertically if needed */
+      margin: 20px auto;       /* spacing around QR */
   }
   
-  /* Ensure canvas is block element */
   #qrcode canvas {
       display: block;
       max-width: 100%;         /* responsive */
