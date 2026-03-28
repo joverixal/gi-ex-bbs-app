@@ -410,11 +410,8 @@
     <h5 class="mb-3">Review Your Details</h5>
   
       <div class="row g-3">
-    
         <!-- LEFT COLUMN -->
-        <div class="col-12 col-md-6">
-    
-          <!-- Basic Info -->
+        <div class="col-6"> <!-- Changed from col-12 col-md-6 -->
           <div class="p-3 border rounded-3 h-100">
             <h6 class="fw-bold text-primary mb-2">Basic Information</h6>
             <p class="mb-1"><strong>Full Name:</strong><br><span id="review-fullname"></span></p>
@@ -424,13 +421,10 @@
             <p class="mb-1"><strong>Batch Year:</strong><br><span id="review-batch"></span></p>
             <p class="mb-0"><strong>Address:</strong><br><span id="review-address"></span></p>
           </div>
-    
         </div>
     
         <!-- RIGHT COLUMN -->
-        <div class="col-12 col-md-6">
-    
-          <!-- Run Category -->
+        <div class="col-6"> <!-- Changed from col-12 col-md-6 -->
           <div class="p-3 border rounded-3 mb-3">
             <h6 class="fw-bold text-primary mb-2">Run Category</h6>
             <p class="mb-0">
@@ -439,7 +433,6 @@
             </p>
           </div>
     
-          <!-- T-Shirt -->
           <div class="p-3 border rounded-3 mb-3">
             <h6 class="fw-bold text-primary mb-2">T-Shirt</h6>
             <p class="mb-0">
@@ -447,6 +440,22 @@
               <span id="review-tshirt"></span>
             </p>
           </div>
+    
+          <div class="p-3 border rounded-3">
+            <h6 class="fw-bold text-primary mb-2">Payment</h6>
+            <p class="mb-0">
+              <strong>Status:</strong><br>
+              <span class="text-success fw-semibold">Uploaded</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    
+      <div class="mt-4 d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" id="btn-back-review">Back</button>
+        <button type="button" class="btn register-btn" id="btn-next-review">Confirm & Submit</button>
+      </div>
+    </div>
     
           <!-- Payment -->
           <div class="p-3 border rounded-3">
