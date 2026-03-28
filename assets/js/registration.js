@@ -64,6 +64,8 @@ $(document).ready(function () {
   $('#btn-next-basic').click(()=>{ if(validateTab('#tab-basic')) showTab('#tab-ride',2); });
   $('#btn-next-ride').click(()=>{ if(validateTab('#tab-ride')) showTab('#tab-payment',3); });
   $('#btn-next-payment').on('click', function() {
+
+    if(validateTab('##tab-payment')){
       // Populate Review tab
       $('#review-fullname').text($('#inp-firstname').val() + ' ' + $('#inp-lastname').val());
       $('#review-gender').text($('#sel-gender').val());
@@ -76,6 +78,7 @@ $(document).ready(function () {
       $('#review-payment').text($('#inp-payment-file').val() ? 'Uploaded' : 'Not uploaded');
   
       showTab('#tab-review', 4);
+    }
   });
 
   // Back buttons
