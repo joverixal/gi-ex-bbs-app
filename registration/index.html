@@ -132,6 +132,18 @@
   /* Force Review tab columns always 2 */
   #tab-review .col-6 { width: 50%; float: left; box-sizing: border-box; }
 
+  /* Center QR canvas inside its container */
+  #qrcode {
+      display: flex;          /* use flexbox */
+      justify-content: center;/* horizontal center */
+      align-items: center;    /* vertical center if needed */
+      flex-direction: column; /* stack canvas and any text vertically */
+  }
+  #qrcode canvas {
+      display: block;
+      margin: 0 auto;         /* just in case */
+  }
+
 </style>
 </head>
 
