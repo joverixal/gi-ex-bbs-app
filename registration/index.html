@@ -90,169 +90,143 @@
   }
 }
 
+.step-indicator {
+  width: 30px; height:30px;
+  border-radius:50%; line-height:30px;
+  background:#ccc; color:#fff; font-weight:600; text-align:center;
+}
+.step-indicator.active { background:#7A2BE2; }
+.step-indicator.completed { background:#00B7C2; }
+.tab-pane { display:none; }
+.tab-pane.active { display:block; }
+
 </style>
 </head>
 
 <body>
 
-<div class="container py-3" style="max-width: 700px;">
-
-  <div class="text-center">
+<div class="container py-4" style="max-width:700px;">
+  <div class="text-center mb-4">
     <img src="../assets/images/anhs-2011-logo.png" class="register-logo" alt="ANHS 2011">
     <h3 class="register-title">ANHS Alumni Run 2026</h3>
   </div>
-  
-  <!-- START FORM -->
-  <form id="frm-registration">
-    <!-- Tabs -->
-    <ul class="nav nav-tabs mb-3" id="registrationTabs" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="tab-basic-tab" data-bs-toggle="tab" data-bs-target="#tab-basic" type="button" role="tab">Basic Info</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="tab-ride-tab" data-bs-toggle="tab" data-bs-target="#tab-ride" type="button" role="tab">Ride Category</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="tab-payment-tab" data-bs-toggle="tab" data-bs-target="#tab-payment" type="button" role="tab">Payment</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="tab-success-tab" data-bs-toggle="tab" data-bs-target="#tab-success" type="button" role="tab">Success</button>
-      </li>
-    </ul>
 
-    <!-- Tab Content -->
-    <div class="tab-content">
-      <!-- Basic Info Tab -->
-      <div class="tab-pane fade show active" id="tab-basic" role="tabpanel">
-        <div class="row g-3">
-          <!-- First Name -->
-          <div class="col-6 col-md-6">
-            <div class="form-floating">
-              <input type="text" id="inp-firstname" class="form-control required-field" placeholder="First name" required>
-              <label for="inp-firstname">First name<span style="color:red;">*</span></label>
-            </div>
-          </div>
-          <!-- Last Name -->
-          <div class="col-6 col-md-6">
-            <div class="form-floating">
-              <input type="text" id="inp-lastname" class="form-control required-field" placeholder="Last name" required>
-              <label for="inp-lastname">Last name<span style="color:red;">*</span></label>
-            </div>
-          </div>
-
-          <!-- Gender -->
-          <div class="col-6 col-md-6">
-            <div class="form-floating">
-              <select id="sel-gender" class="form-control required-field" required>
-                <option value="" selected disabled>Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-              <label for="sel-gender">Gender<span style="color:red;">*</span></label>
-            </div>
-          </div>
-
-          <!-- Birthdate -->
-          <div class="col-6 col-md-6">
-            <div class="form-floating">
-              <input type="date" id="inp-birthdate" class="form-control required-field" placeholder="Birthdate" required>
-              <label for="inp-birthdate">Birthdate<span style="color:red;">*</span></label>
-            </div>
-          </div>
-
-          <!-- Contact -->
-          <div class="col-6 col-md-6">
-            <div class="form-floating">
-              <input type="text" id="inp-contact" class="form-control" placeholder="Contact number">
-              <label for="inp-contact">Contact number</label>
-            </div>
-          </div>
-
-          <!-- Address -->
-          <div class="col-12 col-md-12">
-            <div class="form-floating">
-              <input type="text" id="inp-address" class="form-control required-field" placeholder="Address" required>
-              <label for="inp-address">Address<span style="color:red;">*</span></label>
-            </div>
-          </div>
-
-          <!-- Batch Year -->
-          <div class="col-6 col-md-6">
-            <div class="form-floating">
-              <select id="sel-batch-year" class="form-control required-field" required></select>
-              <label for="sel-batch-year">Batch year</label>
-            </div>
-          </div>
-
-          <!-- T-Shirt Size -->
-          <div class="col-6 col-md-6">
-            <div class="form-floating">
-              <select id="sel-tshirt" class="form-control required-field" required>
-                <option value="" selected disabled>Select T-Shirt size</option>
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-                <option value="XL">XL</option>
-                <option value="XXL">XXL</option>
-              </select>
-              <label for="sel-tshirt">T-Shirt size<span style="color:red;">*</span></label>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-3 text-end">
-          <button type="button" class="btn register-btn" id="btn-next-basic">Next</button>
-        </div>
-      </div>
-
-      <!-- Ride Category Tab -->
-      <div class="tab-pane fade" id="tab-ride" role="tabpanel">
-        <div class="row g-3">
-          <div class="col-12">
-            <h5>Select your ride category</h5>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="rideCategory" id="ride3km" value="3km" required>
-              <label class="form-check-label" for="ride3km">3km Fun Run</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="rideCategory" id="ride6km" value="6km" required>
-              <label class="form-check-label" for="ride6km">6km Run</label>
-            </div>
-          </div>
-        </div>
-        <div class="mt-3 d-flex justify-content-between">
-          <button type="button" class="btn btn-secondary" id="btn-back-ride">Back</button>
-          <button type="button" class="btn register-btn" id="btn-next-ride">Next</button>
-        </div>
-      </div>
-
-      <!-- Payment GCash QR Tab -->
-      <div class="tab-pane fade text-center" id="tab-payment" role="tabpanel">
-        <h5>Scan the QR Code to pay via GCash</h5>
-        <img src="../assets/images/gcash-qr.png" class="img-fluid" style="max-width:250px;">
-      
-        <div class="mt-3">
-          <div class="form-floating">
-            <input type="file" id="inp-payment-file" class="form-control" accept="image/*" required>
-            <label for="inp-payment-file">Upload Payment Proof<span style="color:red;">*</span></label>
-          </div>
-        </div>
-
-  <div class="mt-3 d-flex justify-content-between">
-    <button type="button" class="btn btn-secondary" id="btn-back-payment">Back</button>
-    <button type="button" class="btn register-btn" id="btn-next-payment">Next</button>
+  <!-- Step Indicators -->
+  <div class="d-flex justify-content-between mb-4">
+    <div class="step-indicator active" data-step="1">1</div>
+    <div class="step-indicator" data-step="2">2</div>
+    <div class="step-indicator" data-step="3">3</div>
+    <div class="step-indicator" data-step="4">4</div>
   </div>
-</div>
 
-      <!-- Pre-Registration Success Tab -->
-      <div class="tab-pane fade text-center" id="tab-success" role="tabpanel">
-        <h4 class="text-success">Pre-Registration Successful!</h4>
-        <p>Thank you for registering. Please wait for verification and further instructions.</p>
+  <form id="frm-registration">
+
+    <!-- Tab 1: Basic Info -->
+    <div class="tab-pane active" id="tab-basic">
+      <div class="row g-3">
+        <div class="col-6">
+          <div class="form-floating">
+            <input type="text" id="inp-firstname" class="form-control" placeholder="First name" required>
+            <label for="inp-firstname">First name<span class="text-danger">*</span></label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-floating">
+            <input type="text" id="inp-lastname" class="form-control" placeholder="Last name" required>
+            <label for="inp-lastname">Last name<span class="text-danger">*</span></label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-floating">
+            <select id="sel-gender" class="form-control" required>
+              <option value="" selected disabled>Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+            <label for="sel-gender">Gender<span class="text-danger">*</span></label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-floating">
+            <input type="date" id="inp-birthdate" class="form-control" placeholder="Birthdate" required>
+            <label for="inp-birthdate">Birthdate<span class="text-danger">*</span></label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-floating">
+            <input type="text" id="inp-contact" class="form-control" placeholder="Contact number" required>
+            <label for="inp-contact">Contact number<span class="text-danger">*</span></label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-floating">
+            <select id="sel-batch-year" class="form-control" required></select>
+            <label for="sel-batch-year">Batch Year<span class="text-danger">*</span></label>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-floating">
+            <input type="text" id="inp-address" class="form-control" placeholder="Address" required>
+            <label for="inp-address">Address<span class="text-danger">*</span></label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-floating">
+            <select id="sel-tshirt" class="form-control" required>
+              <option value="" selected disabled>Select T-Shirt size</option>
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+              <option value="XXL">XXL</option>
+            </select>
+            <label for="sel-tshirt">T-Shirt Size<span class="text-danger">*</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 text-end">
+        <button type="button" class="btn register-btn" id="btn-next-basic">Next</button>
       </div>
     </div>
-  </form>
-  <!-- END FORM -->
 
+    <!-- Tab 2: Ride Category -->
+    <div class="tab-pane" id="tab-ride">
+      <h5>Select your Ride Category</h5>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="rideCategory" id="ride3km" value="3km" required>
+        <label class="form-check-label" for="ride3km">3km Fun Run</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="rideCategory" id="ride6km" value="6km" required>
+        <label class="form-check-label" for="ride6km">6km Run</label>
+      </div>
+      <div class="mt-4 d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" id="btn-back-ride">Back</button>
+        <button type="button" class="btn register-btn" id="btn-next-ride">Next</button>
+      </div>
+    </div>
+
+    <!-- Tab 3: Payment -->
+    <div class="tab-pane text-center" id="tab-payment">
+      <h5>Scan the QR Code to pay via GCash</h5>
+      <img src="../assets/images/gcash-qr.png" class="img-fluid my-3" style="max-width:250px;">
+      <div class="form-floating mb-3">
+        <input type="file" id="inp-payment-file" class="form-control" accept="image/*" required>
+        <label for="inp-payment-file">Upload Payment Proof<span class="text-danger">*</span></label>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" id="btn-back-payment">Back</button>
+        <button type="button" class="btn register-btn" id="btn-next-payment">Next</button>
+      </div>
+    </div>
+
+    <!-- Tab 4: Success -->
+    <div class="tab-pane text-center" id="tab-success">
+      <h4 class="text-success">Pre-Registration Successful!</h4>
+      <p>Thank you for registering. Please wait for verification and further instructions.</p>
+    </div>
+
+  </form>
 </div>
 
 <div id="footer-placeholder"></div>
