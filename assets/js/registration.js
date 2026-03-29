@@ -92,28 +92,33 @@ $(document).ready(function () {
   $('#btn-back-review').on('click', function() {showTab('#tab-payment', 3);});
   
   $('#btn-next-review').on('click', function() {
-    buildSuccessContent();
 
-    // Hide all tabs and step indicators
-    $('#frm-registration .tab-pane').hide();
-    $('.step-indicator').hide();
-    $('#tab-success').show();
+  buildSuccessContent();
 
-    // Countdown auto-download
-    let countdown = 3;
-    const originalText = "Download QR Code";
-    $('#btn-download-qr').prop('disabled', true);
+  // Hide entire form UI (tabs + steps)
+  $('#frm-registration .tab-pane').hide();
+  $('.step-indicator').hide();
 
-    const countdownInterval = setInterval(() => {
-        if(countdown <= 0){
-            clearInterval(countdownInterval);
-            $('#btn-download-qr').prop('disabled', false).text(originalText);
-            $('#btn-download-qr').click();
-        } else {
-            $('#btn-download-qr').text(`${originalText} (${countdown})`);
-            countdown--;
-        }
-    }, 1000);
+  // Show success content
+  $('#success-container').fadeIn();
+
+  // Countdown auto-download
+  let countdown = 3;
+  const originalText = "Download QR Code";
+  $('#btn-download-qr').prop('disabled', true);
+
+  const countdownInterval = setInterval(() => {
+      if(countdown <= 0){
+          clearInterval(countdownInterval);
+          $('#btn-download-qr')
+              .prop('disabled', false)
+              .text(originalText)
+              .click();
+      } else {
+          $('#btn-download-qr').text(`${originalText} (${countdown})`);
+          countdown--;
+      }
+  }, 1000);
 });
 
   function emptyStateLabel(value){
