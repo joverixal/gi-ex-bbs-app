@@ -94,14 +94,10 @@ $(document).ready(function () {
   $('#btn-next-review').on('click', function() {
     buildSuccessContent();
 
-    // Hide entire form and step indicators
-    $('#frm-registration').hide();
+    // Hide all tabs and step indicators
+    $('#frm-registration .tab-pane').hide();
     $('.step-indicator').hide();
-
-    // Force show success as standalone
-    $('#tab-success')
-        .removeClass('tab-pane') // remove tab behavior
-        .show();
+    $('#tab-success').show();
 
     // Countdown auto-download
     let countdown = 3;
