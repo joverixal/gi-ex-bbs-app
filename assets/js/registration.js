@@ -101,43 +101,35 @@ $(document).ready(function () {
   $('#btn-back-review').on('click', function() {showTab('#tab-payment', 3);});
   
   $('#btn-next-review').on('click', function() {
-
     const fileInput = $('#inp-payment-file')[0];
     if (fileInput.files.length === 0) {
-        toastr.error('Please select a file.');
+        toastr.error('Please upload Payment Proof');
         return;
     }
-    const file = fileInput.files[0];
-    const reader = new FileReader();
 
-    reader.onload = function(e) {
-        const base64Data = e.target.result.split(',')[1]; // remove data:*/*;base64,
-    
-        const params = {
-            action: "registration",
-            filename: file.name,
-            mimeType: file.type,
-            data: base64Data
-        };
-    
-        $.ajax({
-            url: API_URL,
-            type: "POST",
-            data: JSON.stringify(params),
-            contentType: "application/json",
-            success: function(response) {
-                if (typeof response === "string") response = JSON.parse(response);
-                console.log("Registration successful", response);
-            },
-            error: function(err) {
-                console.log("Error registration", err);
-                alert("Error registration, please try again later");
-            }
-        });
-    };
-    
-    // **call readAsDataURL after setting onload**
-    reader.readAsDataURL(file);
+    const file = fileInput.files[0];
+    const formData = new FormData();
+    formData.append('action', 'registration'); // tells backend what to do
+    formData.append('file', file);             // send file directly
+    formData.append('filename', file.name);    // optional, you can read it in backend
+
+    $.ajax({
+        url: API_URL, // your Google Apps Script URL
+        type: "POST",
+        data: formData,
+        processData: false,  // very important for FormData
+        contentType: false,  // very important for FormData
+        success: function(response) {
+            if (typeof response === "string") response = JSON.parse(response);
+            console.log("Registration success:", response);
+            toastr.success('File uploaded successfully!');
+        },
+        error: function(err) {
+            console.error("Error uploading file:", err);
+            toastr.error('Error uploading file. Please try again.');
+        }
+    });
+  });
 
   // buildSuccessContent();
 
@@ -165,9 +157,6 @@ $(document).ready(function () {
   //         countdown--;
   //     }
   // }, 1000);
-
-    
-});
 
   $('input[name="rideCategory"]').on('change', function () {
     const selected = $(this).val();
