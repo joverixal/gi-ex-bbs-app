@@ -118,6 +118,36 @@ $(document).ready(function () {
                 console.log("Error", err);
             }
         });
+
+   const fileInput = $('#inp-payment-file')[0];
+    if (fileInput.files.length === 0) {
+        toastr.error('Please select a file.');
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const formData = new FormData();
+    formData.append('action', 'registration'); // tells backend what to do
+    formData.append('file', file);             // send file directly
+    formData.append('filename', file.name);    // optional, you can read it in backend
+
+    $.ajax({
+        url: API_URL, // your Google Apps Script URL
+        type: "POST",
+        data: formData,
+        processData: false,  // very important for FormData
+        contentType: false,  // very important for FormData
+        success: function(response) {
+            if (typeof response === "string") response = JSON.parse(response);
+            console.log("Registration success:", response);
+            toastr.success('File uploaded successfully!');
+        },
+        error: function(err) {
+            console.error("Error uploading file:", err);
+            toastr.error('Error uploading file. Please try again.');
+        }
+    });
+   
   });
 
   // buildSuccessContent();
