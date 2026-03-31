@@ -146,23 +146,32 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: "https://script.google.com/macros/s/AKfycbxKnbAauKIZKRjN54q8H8aBx4XlgitQOsEYTYOpxIvUJaK_-IxSEcTD6b8dXxtdSsqX/exec",
-            method: "POST",
-            data: JSON.stringify(payload),
-            contentType: "application/json",
-            success: function(response) {
-                console.log(response);
-                if (response.success) {
-                    alert("Registered successfully! ID: " + response.id);
-                } else {
-                    alert(response.message);
-                }
-            },
-            error: function(err) {
-                console.error(err);
-                alert("Upload failed!");
+        url: "https://script.google.com/macros/s/AKfycbxKnbAauKIZKRjN54q8H8aBx4XlgitQOsEYTYOpxIvUJaK_-IxSEcTD6b8dXxtdSsqX/exec",
+        method: "POST",
+    
+        // ✅ send as FORM (no stringify)
+        data: {
+            action: "registration",
+            imageData: base64Data,
+            amountDue: amountDue
+        },
+    
+        // ❌ REMOVE THIS (causes preflight)
+        // contentType: "application/json",
+    
+        success: function(response) {
+            console.log(response);
+            if (response.success) {
+                alert("Registered successfully! ID: " + response.id);
+            } else {
+                alert(response.message);
             }
-        });
+        },
+        error: function(err) {
+            console.error(err);
+            alert("Upload failed!");
+        }
+    });
     };
 
     reader.readAsDataURL(file);
