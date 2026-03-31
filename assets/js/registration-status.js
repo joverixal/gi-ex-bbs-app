@@ -13,6 +13,8 @@ $(document).ready(function () {
 
   function showLoading() { $qrLoading.show(); }
   function hideLoading() { $qrLoading.hide(); }
+
+  hideLoading();
   
   // Open modal and start scanner
   $('#btn-scan-qr').click(function() {
