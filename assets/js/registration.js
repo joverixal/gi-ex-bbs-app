@@ -102,6 +102,11 @@ $(document).ready(function () {
   
   $('#btn-next-review').on('click', function() {
 
+    const fileInput = $('#inp-payment-file')[0];
+    if (fileInput.files.length === 0) {
+        toastr.error('Please select a file.');
+        return;
+    }
     const file = fileInput.files[0];
     const reader = new FileReader();
 
