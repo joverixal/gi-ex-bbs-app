@@ -145,33 +145,26 @@ $(document).ready(function () {
             amountDue: amountDue
         };
 
-        $.ajax({
-        url: "https://script.google.com/macros/s/AKfycbxKnbAauKIZKRjN54q8H8aBx4XlgitQOsEYTYOpxIvUJaK_-IxSEcTD6b8dXxtdSsqX/exec",
-        method: "POST",
-    
-        // ✅ send as FORM (no stringify)
-        data: {
-            action: "registration",
-            imageData: base64Data,
-            amountDue: amountDue
-        },
-    
-        // ❌ REMOVE THIS (causes preflight)
-        // contentType: "application/json",
-    
-        success: function(response) {
-            console.log(response);
-            if (response.success) {
-                alert("Registered successfully! ID: " + response.id);
-            } else {
-                alert(response.message);
-            }
-        },
-        error: function(err) {
-            console.error(err);
-            alert("Upload failed!");
-        }
-    });
+          compressImage(file, 800, 0.7, function (base64Data) {
+          // 🔥 send compressed image
+          $.ajax({
+              url: "https://script.google.com/macros/s/AKfycbxKnbAauKIZKRjN54q8H8aBx4XlgitQOsEYTYOpxIvUJaK_-IxSEcTD6b8dXxtdSsqX/exec",
+              method: "POST",
+              data: {
+                  action: "registration",
+                  imageData: base64Data,
+                  amountDue: amountDue
+              },
+              success: function (res) {
+                  console.log(res);
+                  alert("Uploaded!");
+              },
+              error: function (err) {
+                  console.error(err);
+                  alert("Upload failed!");
+              }
+          });
+      });
     };
 
     reader.readAsDataURL(file);
