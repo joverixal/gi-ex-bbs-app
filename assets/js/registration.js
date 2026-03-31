@@ -146,7 +146,7 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: "https://script.google.com/macros/s/AKfycbyZv2q9z8ki4BN_mJ2p_51NakpbTLQJW9e4jRChgEGU2dIfR8domb0G3uySSHpyJ7Vo/exec",
+            url: "https://script.google.com/macros/s/AKfycbxKnbAauKIZKRjN54q8H8aBx4XlgitQOsEYTYOpxIvUJaK_-IxSEcTD6b8dXxtdSsqX/exec",
             method: "POST",
             data: JSON.stringify(payload),
             contentType: "application/json",
