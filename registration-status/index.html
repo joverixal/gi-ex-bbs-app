@@ -55,11 +55,27 @@ body { background: linear-gradient(135deg, #7A2BE2, #00B7C2); min-height: 100vh;
 
   <form id="frm-status">
 
-    <!-- QR Code Search -->
+    <!-- Scan QR Button -->
     <div class="mb-4 text-center">
-      <h5>Scan Your QR Code</h5>
-      <!-- QR code scanner -->
-      <div id="reader"></div>
+      <button type="button" class="btn register-btn" id="btn-scan-qr">Scan Your QR Code</button>
+    </div>
+    
+    <!-- QR Scanner Modal -->
+    <div class="modal fade" id="qrModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Scan QR Code</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div id="reader" style="width:100%;"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn register-btn" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <hr>
