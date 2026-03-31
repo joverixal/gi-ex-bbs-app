@@ -11,8 +11,8 @@ $(document).ready(function () {
   const $qrLoading = $('#qr-loading');
   let qrModal = new bootstrap.Modal($('#qrModal')[0]);
 
-  function showLoading() { $qrLoading.show(); }
-  function hideLoading() { $qrLoading.hide(); }
+  function showLoading() { $qrLoading.removeClass('d-none'); }
+  function hideLoading() { $qrLoading.addClass('d-none'); }
 
   hideLoading();
   
