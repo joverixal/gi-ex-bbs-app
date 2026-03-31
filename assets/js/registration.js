@@ -139,12 +139,20 @@ $(document).ready(function () {
           tshirtSize,
           imageData: base64Data
         };
+
+      const btnNextReview= $('#btn-next-review');
+      btnNextReview.prop('disabled', true);
+      btnNextReview.html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Confirm & Submit');
       
         $.ajax({
             url: API_URL,
             method: "POST",
             data: data,
             success: function (res) {
+
+              btnNextReview.prop('disabled', false);
+              btnNextReview.html('Confirm & Submit'); // restore original text
+              
               const id = res.id
               
               buildSuccessContent(id, firstName, lastName);
@@ -159,7 +167,7 @@ $(document).ready(function () {
               // Countdown auto-download
               let countdown = 3;
               const originalText = "Download QR Code";
-              $('#btn-download-qr').prop('disabled', true);
+              $('#btn-download-qr').prop('disabled', true);              
             
               const countdownInterval = setInterval(() => {
                   if(countdown <= 0){
@@ -175,6 +183,9 @@ $(document).ready(function () {
               }, 1000);
             },
             error: function (err) {
+                btnNextReview.prop('disabled', false);
+                btnNextReview.html('Confirm & Submit'); // restore original text
+              
                 console.error(err);
                 alert("Upload failed!");
             }
