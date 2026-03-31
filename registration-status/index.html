@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2026 ANHS Grand Alumni Fun Run - Registration Status</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#E41200">
+<link rel="icon" type="image/png" href="../assets/images/app-icon.png">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="../assets/vendor/bootstrap.min.css">
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="../assets/vendor/bootstrap-icons.css">
+<!-- Toastr CSS -->
+<link rel="stylesheet" href="../assets/vendor/toastr.min.css">
+<link rel="stylesheet" href="../assets/css/footer.css">
+
+<!-- jQuery -->
+<script src="../assets/vendor/jquery.min.js"></script>
+<script src="../assets/vendor/jquery.mask.min.js"></script>
+<script src="../assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/vendor/toastr.min.js"></script>
+<script src="../assets/vendor/kjua.min.js"></script>
+
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/registration-status.js"></script>
+
+<style>
+  body {
+    background: linear-gradient(135deg, #7A2BE2, #00B7C2);
+    min-height: 100vh;
+  }
+
+  .container {
+    background: #ffffff;
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 700px;
+  }
+
+  .register-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .register-logo {
+    width: 60px;
+    height: auto;
+  }
+
+  .register-title {
+    font-size: 1.2rem;
+    color: #5A1FAF;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .form-floating input { height:50px; font-size:1rem; }
+  .form-control:focus {
+    border-color: #00B7C2;
+    box-shadow: 0 0 0 0.2rem rgba(0,183,194,0.25);
+  }
+
+  .register-btn {
+    background: linear-gradient(135deg, #7A2BE2, #00B7C2) !important;
+    color: #fff !important;
+    border: none;
+  }
+  .register-btn:hover { opacity: 0.9; }
+
+  #qrcode {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+  }
+  #qrcode canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+</style>
+</head>
+
+<body>
+
+<div class="container py-4">
+
+  <!-- Header -->
+  <div class="register-header">
+    <img src="../assets/images/anhs-2011-logo.png" class="register-logo" alt="ANHS 2011">
+    <h3 class="register-title">Check Registration Status</h3>
+  </div>
+
+  <form id="frm-status">
+
+    <!-- QR Code Search -->
+    <div class="mb-4 text-center">
+      <h5>Scan Your QR Code</h5>
+      <div id="qrcode"></div>
+      <input type="file" id="inp-qr-file" class="form-control mt-2" accept=".png,.jpg,.jpeg">
+      <button type="button" class="btn register-btn mt-2" id="btn-scan-qr">Scan QR</button>
+    </div>
+
+    <hr>
+
+    <!-- Search by Name -->
+    <div class="mb-4">
+      <h5>Or Search by Name</h5>
+      <div class="row g-3">
+        <div class="col-6">
+          <div class="form-floating">
+            <input type="text" id="inp-firstname" class="form-control" placeholder="First Name">
+            <label for="inp-firstname">First Name</label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-floating">
+            <input type="text" id="inp-lastname" class="form-control" placeholder="Last Name">
+            <label for="inp-lastname">Last Name</label>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3 text-end">
+        <button type="button" class="btn register-btn" id="btn-search-name">Search</button>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div id="status-result" class="mt-4" style="display:none;">
+      <h5>Registration Details</h5>
+      <p><strong>Full Name:</strong> <span id="result-fullname"></span></p>
+      <p><strong>Run Category:</strong> <span id="result-category"></span></p>
+      <p><strong>T-Shirt Size:</strong> <span id="result-tshirt"></span></p>
+      <p><strong>Payment Status:</strong> <span id="result-payment"></span></p>
+      <div id="result-qr" class="mt-3"></div>
+    </div>
+
+  </form>
+
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="../assets/js/loadFooter.js"></script>
+
+</body>
+</html>
