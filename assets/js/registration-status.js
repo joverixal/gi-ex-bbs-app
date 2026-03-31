@@ -89,7 +89,7 @@ $(document).ready(function () {
     const fullName = `${data.firstName} ${data.lastName}`;
     const eventTitle = "2026 ANHS Grand Alumni Fun Run";
     const currentDateTime = getCurrentDateTime();
-    const fileName = `${firstName}_${currentDateTime}`;
+    const fileName = `${data.firstName}_${currentDateTime}`;
     
     const qrSize = 200;
     const margin = 5;
