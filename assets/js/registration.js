@@ -127,7 +127,7 @@ $(document).ready(function () {
 
   function registration(){
   const fileInput = $('#inp-payment-file')[0];
-    const amountDue = '100';
+    const amountDue = '1000';
 
     if (fileInput.files.length === 0) {
         toastr.error('Please select a file.');
@@ -138,19 +138,18 @@ $(document).ready(function () {
     const reader = new FileReader();
 
     reader.onload = function(e) {
-        const base64Data = e.target.result.split(',')[1]; // Remove the data:...;base64, part
-        const payload = JSON.stringify({
+        const base64Data = e.target.result.split(',')[1]; // remove data:image/...;base64,
+        const payload = {
+            action: "registration",
             imageData: base64Data,
             amountDue: amountDue
-        });
+        };
 
         $.ajax({
-            url: "https://script.google.com/macros/s/AKfycbxVe7oSdcCMkIQ6fHFuMKxc9im7UjdnAqD0ZCk1I-cL6mjTN-TS3BFfJDD7KdkFdgdj/exec",
-            method: "GET", // Apps Script doGet only works with GET
-            data: {
-                action: "registration",
-                payload: payload
-            },
+            url: "https://script.google.com/macros/s/AKfycbztp3HPAM3kuIjuEjpYvl2Jq_nSBZmEwnaQaic9zcXx1_y9Qv_IC2rezelNr0LEMpBZ/exec",
+            method: "POST",
+            data: JSON.stringify(payload),
+            contentType: "application/json",
             success: function(response) {
                 console.log(response);
                 if (response.success) {
@@ -164,9 +163,9 @@ $(document).ready(function () {
                 toastr.error("Upload failed!");
             }
         });
+    };
 
-  }
-      reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
   }
 
   // buildSuccessContent();
