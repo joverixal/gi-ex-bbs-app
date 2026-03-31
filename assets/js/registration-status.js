@@ -7,25 +7,25 @@ $(document).ready(function () {
       "preventDuplicates": true
   };
 
-  function stopScanner() {
-  if (html5QrScanner) {
-    return html5QrScanner.clear()
-      .then(() => {
-        html5QrScanner = null;
-        $("#reader").html(""); // IMPORTANT: fully reset DOM
-      })
-      .catch(err => {
-        console.log("Scanner clear error:", err);
-        html5QrScanner = null;
-        $("#reader").html("");
-      });
-  }
-  return Promise.resolve();
-}
-
   let html5QrScanner = null;
   const $qrLoading = $('#qr-loading');
   let qrModal = new bootstrap.Modal($('#qrModal')[0]);
+
+  function stopScanner() {
+    if (html5QrScanner) {
+      return html5QrScanner.clear()
+        .then(() => {
+          html5QrScanner = null;
+          $("#reader").html(""); // IMPORTANT: fully reset DOM
+        })
+        .catch(err => {
+          console.log("Scanner clear error:", err);
+          html5QrScanner = null;
+          $("#reader").html("");
+        });
+    }
+    return Promise.resolve();
+  }
 
   function showLoading() { $qrLoading.removeClass('d-none'); }
   function hideLoading() { $qrLoading.addClass('d-none'); }
