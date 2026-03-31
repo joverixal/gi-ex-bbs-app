@@ -15,8 +15,8 @@ $(document).ready(function () {
         toastr.error("Enter both first and last name");
         return;
     }
-
     search(id, firstName, lastName);
+    
   });
 
   function search(id, firstName, lastName){
@@ -26,9 +26,7 @@ $(document).ready(function () {
     btnScanQR.prop('disabled', true);
     btnSearchName.prop('disabled', true);
     
-    const params ={
-      action: "registrationStatus", id, firstName, lastName }
-    };
+    const params = { action: "registrationStatus", id, firstName, lastName};
     
     $.ajax({
             url: API_URL,
