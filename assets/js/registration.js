@@ -145,8 +145,35 @@ $(document).ready(function () {
             method: "POST",
             data: data,
             success: function (res) {
-                console.log(res);
-                alert("Uploaded!");
+              const data = res.data;
+              const id = data.id
+              
+              buildSuccessContent(id, firstName, lastName);
+
+              // Hide entire form UI (tabs + steps)
+              $('#frm-registration .tab-pane').hide();
+              $('.step-indicator').hide();
+            
+              // Show success content
+              $('#success-container').fadeIn();
+            
+              // Countdown auto-download
+              let countdown = 3;
+              const originalText = "Download QR Code";
+              $('#btn-download-qr').prop('disabled', true);
+            
+              const countdownInterval = setInterval(() => {
+                  if(countdown <= 0){
+                      clearInterval(countdownInterval);
+                      $('#btn-download-qr')
+                          .prop('disabled', false)
+                          .text(originalText)
+                          .click();
+                  } else {
+                      $('#btn-download-qr').text(`${originalText} (${countdown})`);
+                      countdown--;
+                  }
+              }, 1000);
             },
             error: function (err) {
                 console.error(err);
@@ -191,34 +218,7 @@ $(document).ready(function () {
     };
 
     reader.readAsDataURL(file);
-}
-
-  // buildSuccessContent();
-
-  // // Hide entire form UI (tabs + steps)
-  // $('#frm-registration .tab-pane').hide();
-  // $('.step-indicator').hide();
-
-  // // Show success content
-  // $('#success-container').fadeIn();
-
-  // // Countdown auto-download
-  // let countdown = 3;
-  // const originalText = "Download QR Code";
-  // $('#btn-download-qr').prop('disabled', true);
-
-  // const countdownInterval = setInterval(() => {
-  //     if(countdown <= 0){
-  //         clearInterval(countdownInterval);
-  //         $('#btn-download-qr')
-  //             .prop('disabled', false)
-  //             .text(originalText)
-  //             .click();
-  //     } else {
-  //         $('#btn-download-qr').text(`${originalText} (${countdown})`);
-  //         countdown--;
-  //     }
-  // }, 1000);
+}  
 
   $('input[name="rideCategory"]').on('change', function () {
     const selected = $(this).val();
@@ -284,16 +284,13 @@ $(document).ready(function () {
     });
   }
 
- function buildSuccessContent() {
-    const guidId = '123e4567-e89b-12d3-a456-426614174000';
-    const firstname = $('#inp-firstname').val().trim().toUpperCase();
-    const lastname = $('#inp-lastname').val().trim().toUpperCase();
+ function buildSuccessContent(id, firstName, lastName) {
     const fullName = `${firstname} ${lastname}`;
     const eventTitle = "2026 ANHS Grand Alumni Fun Run";
     const currentDateTime = getCurrentDateTime();
     const fileName = `${firstname}_${currentDateTime}`;
-    const baseUrl = "https://your-verification-link.com";
-    const verificationUrl = `${baseUrl}?id=${guidId}`;
+    const baseUrl = "https://joverixal.github.io/ge-ix-fr-anhs/registration-status/";
+    const verificationUrl = `${baseUrl}?id=${id}`;
 
     // Update verification link
     $("#verification-link").attr("href", verificationUrl).text("Check Registration Status");
@@ -325,7 +322,7 @@ $(document).ready(function () {
         fill: '#000000',
         back: '#ffffff',
         quiet: 0,
-        text: JSON.stringify({ Id: guidId })
+        text: JSON.stringify({ id, firstName, lastName})
     });
 
     // Draw QR on our main canvas
