@@ -101,37 +101,23 @@ $(document).ready(function () {
   $('#btn-back-review').on('click', function() {showTab('#tab-payment', 3);});
   
  $('#btn-next-review').on('click', function() {
-    const fileInput = $('#inp-payment-file')[0];
-
-    const formData = new FormData();
-    formData.append('action', 'registration'); // tell backend what to do
-
-    // Optional file
-    if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        formData.append('file', file);
-    }
-
-    // Optional extra fields
-    formData.append('userId', '123');
-    formData.append('amount', '1000');
-
     $.ajax({
-        url: API_URL,
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            if (typeof response === "string") response = JSON.parse(response);
-            console.log("Success:", response);
-            toastr.success('Action completed successfully!');
-        },
-        error: function(err) {
-            console.error("Error:", err);
-            toastr.error('Something went wrong. Please try again.');
-        }
-    });
+            url: API_URL,
+            method: "GET",
+            data: {
+                action: "sample",
+                name: "Joverixal",
+            },
+            success: function (response) {
+
+                if (typeof response === "string") {
+                    response = JSON.parse(response);
+                }
+            },
+            error: function (err) {
+                console.log("Error", err);
+            }
+        });
   });
 
   // buildSuccessContent();
