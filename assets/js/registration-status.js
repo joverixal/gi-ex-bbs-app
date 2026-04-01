@@ -182,6 +182,15 @@ $(document).ready(function () {
 
   function showRegistrationResult(data) {
     $('#status-result').removeClass('d-none');
+
+    if(data.tshirtSize){
+      $('#p-result-tshirt').removeClass('d-none');
+    }
+    else{
+      $('#p-result-tshirt').addClass('d-none');
+    }
+
+    const batchYear = data.batchYear || '--';
     
     $('#result-fullname').text(data.firstName + ' ' + data.lastName);
     $('#result-gender').text(data.gender);
