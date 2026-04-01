@@ -33,7 +33,7 @@
   .container {
     background: #ffffff;
     border-radius: 1rem;
-    padding: 1rem 1.5rem;
+    padding: 0.5rem 1.5rem 1rem;
   }
 
   .register-card {
@@ -52,7 +52,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   .register-logo {
     width: 60px;
@@ -176,23 +176,24 @@
   }
 }
 
-.status-banner {
-  background: #fff;
-  padding: 10px 12px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  font-size: 0.9rem;
-  border: 1px solid #eee;
+.status-text {
+  color: #666;
+  font-size: 0.85rem;
 }
 
 .status-link {
-  color: #0d6efd;
-  text-decoration: none;
+  color: #7A2BE2; /* matches your theme */
   font-weight: 600;
+  text-decoration: none;
+  font-size: 0.85rem;
 }
 
 .status-link:hover {
   text-decoration: underline;
+}
+
+body {
+  padding-top: 10px;
 }
   
 </style>
@@ -200,7 +201,7 @@
 
 <body>
 
-<div class="container py-4" style="max-width:700px;">
+<div class="container py-3" style="max-width:700px;">
 
   <!-- Header: logo + title -->
   <div class="register-header">
@@ -208,12 +209,10 @@
     <h3 class="register-title">2026 ANHS Grand Alumni Fun Run</h3>
   </div>
 
-  <div class="status-banner text-center">
-    <span>Already registered?</span>
-    <a href="https://joverixal.github.io/ge-ix-fr-anhs/registration-status/" class="status-link">
-      Tap me
-    </a>
-  </div>
+<div class="text-center mb-1">
+  <span class="status-text">Already registered? </span>
+  <a href="status.html" class="status-link">Check status</a>
+</div>
 
   <!-- Step Indicators -->
   <div class="d-flex justify-content-between mb-4">
