@@ -385,18 +385,18 @@
           </div>
         </div>
       </div>
-      <div class="mt-4 d-flex justify-content-between align-items-center">
-        <button type="button" class="btn btn-secondary" id="btn-back-review">Back</button>
+      <div class="mt-4">
+        <button type="button" class="btn btn-secondary mb-2 mb-md-0" id="btn-back-review">Back</button>
         
-        <div class="d-flex align-items-center gap-2">
-          <input type="checkbox" id="chk-privacy-agree">
-          <label for="chk-privacy-agree" class="mb-0">I have read and agree to the 
-            <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a>
-          </label>
-          
-          <button type="button" class="btn register-btn" id="btn-next-review" disabled>
-            Confirm & Submit
-          </button>
+        <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-2">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="chk-privacy-agree">
+            <label class="form-check-label" for="chk-privacy-agree">
+              I have read and agree to the 
+              <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a>
+            </label>
+          </div>
+          <button type="button" class="btn register-btn" id="btn-next-review" disabled>Confirm & Submit</button>
         </div>
       </div>
     </div>
