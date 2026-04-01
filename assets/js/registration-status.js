@@ -194,7 +194,7 @@ $(document).ready(function () {
     
     $('#result-fullname').text(data.firstName + ' ' + data.lastName);
     $('#result-gender').text(data.gender);
-    $('#result-batch').text(data.batchYear);
+    $('#result-batch').text(batchYear);
     $('#result-category').text(data.package);
     $('#result-tshirt').text(data.tshirtSize);
     $('#result-payment').text(data.status);
